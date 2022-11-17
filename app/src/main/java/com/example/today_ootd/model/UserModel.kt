@@ -1,9 +1,7 @@
 package com.example.today_ootd.model
 
 data class UserModel (
-    val sellerId : String,
-    val title : String,
-    val createdAt : Long,
-    val whether : String,
-    val imageUrl : String
+    val name : String,
+    val nickname : String,
+    val height : Int
 )
