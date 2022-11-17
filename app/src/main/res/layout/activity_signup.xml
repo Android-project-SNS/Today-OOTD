@@ -161,6 +161,17 @@
                     android:text="" />
 
                 <TextView
+                    android:id="@+id/nicknameError"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-20dp"
+                    android:layout_marginBottom="5dp"
+                    android:text=""
+                    android:textColor="#FF0000"
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
+
+                <TextView
                     android:id="@+id/signheightText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

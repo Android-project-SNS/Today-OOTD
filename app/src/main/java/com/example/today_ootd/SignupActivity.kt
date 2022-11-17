@@ -8,6 +8,7 @@ import android.widget.EditText
 import android.widget.Toast
 import com.example.today_ootd.databinding.ActivitySignupBinding
 import com.example.today_ootd.databinding.ActivityUploadBinding
+import com.example.today_ootd.model.UserModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -84,12 +85,13 @@ class SignupActivity : AppCompatActivity() {
         val nickname = findViewById<EditText>(R.id.signNickName).text.toString()
         val height = Integer.parseInt(findViewById<EditText>(R.id.signHeight).text.toString())
 
-        // 유저 정보 맵
-        val userMap = hashMapOf(
-            "name" to name,
-            "nickname" to nickname,
-            "height" to height
-        )
+//        // 유저 정보 맵
+//        val userMap = hashMapOf(
+//            "name" to name,
+//            "nickname" to nickname,
+//            "height" to height
+//        )
+        val userMap = UserModel(name, nickname, height)
 
         val usersInfo = userRef.push()
         usersInfo.setValue(userMap)
@@ -108,7 +110,8 @@ class SignupActivity : AppCompatActivity() {
                 }
 
                 if (nicknames.contains(nickname)){ // 닉네임이 중복되는 경우
-                    overrlapNotice()
+                    val nicknameError = binding.nicknameError
+                    nicknameError.text = "중복 닉네임"
                 }
                 else { // 닉네임이 중복되지 않는 경우
                     signUp()
@@ -120,10 +123,5 @@ class SignupActivity : AppCompatActivity() {
             }
 
         })
-    }
-
-    // 닉네임 중복 알림
-    private fun overrlapNotice() {
-        Toast.makeText(this, "이미 존재하는 닉네임입니다.", Toast.LENGTH_LONG).show()
     }
 }
