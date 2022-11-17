@@ -58,4 +58,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-storage-ktx'
     implementation 'com.google.firebase:firebase-firestore-ktx'
     implementation 'com.google.firebase:firebase-config-ktx'
-    implementation 'com.google.firebase:firebase-database-ktx'}
+    implementation 'com.google.firebase:firebase-database-ktx'
+
+    // facebook login
+    //implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
+}
