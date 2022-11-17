@@ -6,23 +6,31 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import com.example.today_ootd.databinding.ActivitySignupBinding
+import com.example.today_ootd.databinding.ActivityUploadBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
 class SignupActivity : AppCompatActivity() {
+    private lateinit var binding : ActivitySignupBinding
+
     var auth : FirebaseAuth? = null
     val db = Firebase.database
     val userRef = db.getReference("user")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_signup)
+        binding = ActivitySignupBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        val password1 = findViewById<EditText>(R.id.signPW)
-        val password2 = findViewById<EditText>(R.id.signPW2)
-        val pwCheck = findViewById<Button>(R.id.pwcheckbutton)
-        val submit = findViewById<Button>(R.id.submitButton)
+        val password1 = binding.signPW
+        val password2 = binding.signPW2
+        val pwCheck = binding.pwcheckbutton
+        val submit = binding.submitButton
 
         auth = FirebaseAuth.getInstance()
 
@@ -40,13 +48,12 @@ class SignupActivity : AppCompatActivity() {
 
         // 회원가입 완료
         submit.setOnClickListener{
-            addInformation()
-            signUp()
+            isValidNickname()
         }
     }
     fun signUp(){
-        val pwdValue = findViewById<EditText>(R.id.signPW)
-        val emailAddress = findViewById<EditText>(R.id.signID)
+        val pwdValue = binding.signPW
+        val emailAddress = binding.signID
         val id = emailAddress.text.toString()
         val password = pwdValue.text.toString()
 
@@ -86,5 +93,37 @@ class SignupActivity : AppCompatActivity() {
 
         val usersInfo = userRef.push()
         usersInfo.setValue(userMap)
+    }
+
+    // 회원 가입 시 닉네임 중복 불가
+    private fun isValidNickname() {
+        userRef.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val nicknames = mutableListOf<String>()
+                val nickname = binding.signNickName.text.toString()
+
+                for (child in snapshot.children){
+                    val map = child.value as Map<*, *>
+                    nicknames.add(map["nickname"].toString())
+                }
+
+                if (nicknames.contains(nickname)){ // 닉네임이 중복되는 경우
+                    overrlapNotice()
+                }
+                else { // 닉네임이 중복되지 않는 경우
+                    signUp()
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+        })
+    }
+
+    // 닉네임 중복 알림
+    private fun overrlapNotice() {
+        Toast.makeText(this, "이미 존재하는 닉네임입니다.", Toast.LENGTH_LONG).show()
     }
 }

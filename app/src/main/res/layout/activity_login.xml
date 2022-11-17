@@ -7,9 +7,10 @@
     tools:context=".LoginActivity">
 
     <LinearLayout
+        android:id="@+id/logo_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/signin_layout">
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true">
         <!--    <ImageView-->
         <!--        android:layout_width="match_parent"-->
         <!--        android:layout_height="wrap_content"-->
@@ -23,7 +24,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="50dp"
+            android:layout_marginBottom="100dp"
             android:text="@string/ootd"
             android:textAlignment="center"
             android:gravity="center"
@@ -35,7 +36,7 @@
         android:id="@+id/signin_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@id/logo_layout"
         android:orientation="vertical">
 
         <com.google.android.material.textfield.TextInputLayout
@@ -86,29 +87,34 @@
             android:layout_marginBottom="20dp"
             android:text="@string/signup"
             tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck,TouchTargetSizeCheck" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signin_layout"
+        android:orientation="horizontal">
 
         <android.widget.Button
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="20dp"
+            android:id="@+id/facebookBtn"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginLeft="100dp"
             android:layout_marginTop="15dp"
             android:layout_marginRight="20dp"
+
             android:layout_marginBottom="5dp"
             android:background="@drawable/btn_signin_facebook"
-            android:text="@string/signin_facebook"
-            android:textColor="@color/white"
             tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck" />
 
         <android.widget.Button
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:id="@+id/googleBtn"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="15dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="80dp"
-            android:background="@drawable/btn_signin_google"
-            android:text="@string/signin_google"
-            android:textColor="@color/white"
+            android:layout_marginRight="100dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/btn_signin_facebook"
             tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck,TouchTargetSizeCheck,TouchTargetSizeCheck" />
     </LinearLayout>
 
