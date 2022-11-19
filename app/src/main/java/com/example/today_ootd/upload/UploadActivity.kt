@@ -1,11 +1,16 @@
 package com.example.today_ootd.upload
 
+import android.Manifest
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.*
 import androidx.core.view.isVisible
 import com.example.today_ootd.databinding.ActivityUploadBinding
 import com.example.today_ootd.model.ArticleModel
@@ -22,6 +27,7 @@ import com.google.firebase.storage.ktx.storage
 class UploadActivity : AppCompatActivity() {
     lateinit var binding: ActivityUploadBinding
     val db : FirebaseFirestore = Firebase.firestore
+    val itemsCollectionRef = db.collection("item")
     private var selectedUri: Uri? = null
     private val auth: FirebaseAuth by lazy {
         Firebase.auth
@@ -41,6 +47,20 @@ class UploadActivity : AppCompatActivity() {
 
         binding.addImageButton.setOnClickListener {
             startContentProvider()
+            when {
+                checkSelfPermission(
+                    this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                ) == PackageManager.PERMISSION_GRANTED -> {
+                    startContentProvider()
+                }
+                shouldShowRequestPermissionRationale(android.Manifest.permission.READ_EXTERNAL_STORAGE) -> {
+                    showPermissionContextPopup()
+                }
+                else -> {
+                    requestPermissions(arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 1010)
+                }
+            }
         }
 
         binding.submitButton.setOnClickListener {
@@ -133,5 +153,17 @@ class UploadActivity : AppCompatActivity() {
                 Toast.makeText(this, "사진을 가져오지 못했습니다.", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+        private fun showPermissionContextPopup() {
+        AlertDialog.Builder(this)
+            .setTitle("권한이 필요합니다.")
+            .setMessage("사진을 가져오기 위해 필요합니다.")
+            .setPositiveButton("동의") { _, _ ->
+                requestPermissions(arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 1010)
+            }
+            .create()
+            .show()
+
     }
 }
