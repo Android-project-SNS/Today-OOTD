@@ -6,6 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.today_ootd.R
+import com.example.today_ootd.model.FollowModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -13,17 +18,22 @@ private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 /**
- * A simple [Fragment] subclass.
- * Use the [MypageFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+* A simple [Fragment] subclass.
+* Use the [MypageFragment.newInstance] factory method to
+* create an instance of this fragment.
+*/
 class MypageFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+//    private lateinit var firestore : FirebaseFirestore
+//    private lateinit var auth : FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+//        firestore = Firebase.firestore
+//        auth = FirebaseAuth.getInstance()
+
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
@@ -57,4 +67,30 @@ class MypageFragment : Fragment() {
                 }
             }
     }
+
+//    // 팔로우 기능
+//    fun requestFollow(){
+//        val currentUid = auth.currentUser!!.uid
+//        var tsDocFollowing = firestore?.collection("users")?.document(currentUid!!)
+//        firestore?.runTransaction { transaction ->
+//            var followModel = transaction.get(tsDocFollowing!!).toObject(FollowModel::class.java)
+//            if (followModel == null){
+//                followModel = FollowModel()
+//                followModel!!.followingCount = 1
+//                followModel!!.followers[uid!!] = true
+//
+//                transaction.set(tsDocFollowing, followModel)
+//                return@runTransaction
+//            }
+//
+//            // 이미 팔로우한 유저라면
+//            if (followModel.following.containsKey(uid)){
+//                followModel?.followingCount = followModel?.followingCount?.minus(1)!!
+//                followModel?.followers?.remove(uid)
+//            }
+//            else{
+//                followModel?.followingCount = followModel?.followingCount?.plus(1)!!
+//            }
+//        }
+//    }
 }
