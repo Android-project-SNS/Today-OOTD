@@ -68,13 +68,14 @@ class UploadActivity : AppCompatActivity() {
         }
     }
 
+    //storage에 사진 업로드 함수
     private fun uploadPhoto(uri: Uri, successHandler: (String) -> Unit, errorHandler: () -> Unit) {
         val fileName = "${System.currentTimeMillis()}.png"
-        storage.reference.child("items/mellon").child(fileName)
+        storage.reference.child("OOTD/photo").child(fileName)
             .putFile(uri)
             .addOnCompleteListener {
                 if (it.isSuccessful) {
-                    storage.reference.child("items/mellon").child(fileName)
+                    storage.reference.child("OOTD/photo").child(fileName)
                         .downloadUrl
                         .addOnSuccessListener { uri ->
                             successHandler(uri.toString())
@@ -87,6 +88,7 @@ class UploadActivity : AppCompatActivity() {
             }
     }
 
+    //DB에 글 업로드 함수
     private fun uploadArticle(sellerId: String, title: String, price: String, imageUrl: String) {
         val model = ArticleModel(sellerId, title, System.currentTimeMillis(), "$price ℃", imageUrl)
         articleDB.push().setValue(model)
