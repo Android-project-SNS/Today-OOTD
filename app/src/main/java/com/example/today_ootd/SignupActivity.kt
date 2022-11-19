@@ -93,7 +93,9 @@ class SignupActivity : AppCompatActivity() {
 //        )
         val userMap = UserModel(name, nickname, height)
 
-        val usersInfo = userRef.push()
+        // uid로 child 생성
+        val currentUid = auth?.currentUser!!.uid
+        val usersInfo = userRef.child(currentUid)
         usersInfo.setValue(userMap)
     }
 
