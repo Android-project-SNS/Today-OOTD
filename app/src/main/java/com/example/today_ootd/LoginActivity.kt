@@ -6,14 +6,21 @@ import android.os.Build
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.today_ootd.databinding.ActivityLoginBinding
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.GoogleAuthProvider
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding : ActivityLoginBinding
+    private lateinit var googleSignInClient: GoogleSignInClient
     var auth : FirebaseAuth? = null
 
     @RequiresApi(Build.VERSION_CODES.P)
@@ -40,6 +47,24 @@ class LoginActivity : AppCompatActivity() {
         facebookLoginButton.setOnClickListener {
 
         }
+
+        var gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+
+        googleSignInClient = GoogleSignIn.getClient(this, gso)
+
+        // 구글 로그인 버튼
+        val googleLoginButton = binding.googleBtn
+        googleLoginButton.setOnClickListener{
+            googleLogin()
+        }
+    }
+
+    fun googleLogin() {
+        var i = googleSignInClient.signInIntent
+        googleLoginResult.launch(i)
     }
 
     fun signUp(){
@@ -64,5 +89,39 @@ class LoginActivity : AppCompatActivity() {
                     Toast.makeText(this, "등록되지 않은 이메일 혹은 잘못된 비밀번호입니다.", Toast.LENGTH_LONG).show()
                 }
             }
+    }
+
+    fun firebaseAuthWithGoogle(idToken: String?) {
+        var credential = GoogleAuthProvider.getCredential(idToken, null)
+        auth?.signInWithCredential(credential)?.addOnCompleteListener { task ->
+            if (task.isSuccessful){
+                if (auth?.currentUser!!.isEmailVerified){
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                }
+                else {
+
+                }
+            }
+            else {
+
+            }
+        }
+    }
+
+    var googleLoginResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
+        if (result.resultCode == RESULT_OK){
+            var task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+            try {
+                val account = task.getResult(ApiException::class.java)
+                firebaseAuthWithGoogle(account?.idToken)
+            } catch (e: ApiException){
+
+            }
+
+        }
+        else {
+            println("$RESULT_CANCELED bye")
+        }
     }
 }
