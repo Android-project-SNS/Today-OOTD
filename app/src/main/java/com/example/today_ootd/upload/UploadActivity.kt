@@ -8,6 +8,8 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
@@ -27,7 +29,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 
-class UploadActivity : AppCompatActivity() {
+class UploadActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener {
     lateinit var binding: ActivityUploadBinding
     val db : FirebaseFirestore = Firebase.firestore
     val itemsCollectionRef = db.collection("item")
@@ -102,6 +104,15 @@ class UploadActivity : AppCompatActivity() {
                 uploadArticle(sellerId, title, weather, "")
             }
         }
+    }
+
+    override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
+        // An item was selected. You can retrieve the selected item using
+        // parent.getItemAtPosition(pos)
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>) {
+        // Another interface callback
     }
 
     //storage에 사진 업로드 함수
