@@ -1,7 +1,9 @@
 package com.example.today_ootd.home
 
+import android.content.ContentValues.TAG
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,10 +17,7 @@ import com.example.today_ootd.model.ArticleModel
 import com.example.today_ootd.upload.ArticleAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.ChildEventListener
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -26,19 +25,67 @@ import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 
 
-class HomeFragment : Fragment(R.layout.item_article) {
+class HomeFragment : Fragment(R.layout.fragment_home) {
     lateinit var storage: FirebaseStorage
-    private var binding: ItemArticleBinding? = null
+    //private var binding: ItemArticleBinding? = null
+    private lateinit var articleDB: DatabaseReference
+    private var binding: FragmentHomeBinding? = null
+    private val articleAdapter = ArticleAdapter()
+    private val articleList = mutableListOf<ArticleModel>()
+    private val listener = object: ChildEventListener {
+        override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
 
+            val articleModel = snapshot.getValue(ArticleModel::class.java)
+            articleModel ?: return
+
+            articleList.add(articleModel)
+            articleAdapter.submitList(articleList)
+
+        }
+        override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}
+
+        override fun onChildRemoved(snapshot: DataSnapshot) {}
+
+        override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
+
+        override fun onCancelled(error: DatabaseError) {}
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val itemArticleBidning = ItemArticleBinding.bind(view)
-        binding = itemArticleBidning
+        //val itemArticleBidning = ItemArticleBinding.bind(view)
+        //binding = itemArticleBidning
+        val fragmentHomeBinding = FragmentHomeBinding.bind(view)
+        binding = fragmentHomeBinding
         storage = Firebase.storage
         val storageRef = storage.reference // reference to root
-        val imageRef1 = storageRef.child("OOTD/photo/1669030395002.png")
-        displayImageRef(imageRef1, itemArticleBidning.thumbnailImageView)
+
+        //fragmentHomeBinding.itemRecyclerView.layoutManager = LinearLayoutManager(context)
+        //fragmentHomeBinding.itemRecyclerView.adapter = articleAdapter
+        val imageRef1 = storage.getReferenceFromUrl("gs://today-ootd-d2187.appspot.com/OOTD/photo/OOTD/photo/1669030395002.png")
+        //displayImageRef(imageRef1, itemArticleBidning.thumbnailImageView)
+
+//        articleAdapter.submitList(mutableListOf<ArticleModel>().apply {
+//            add(ArticleModel("1","맥북 프로16인치","","","","","",0,"",imageRef1.toString()))
+//        })
+        articleList.clear()
+        articleDB = Firebase.database.reference.child("items")
+        articleDB.addChildEventListener(mChildListener)
+        Log.d(TAG,"after addChildEventListener! now size : ${articleList.size}")
+
+        articleDB.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                articleList.clear()
+                Log.d(TAG,"addListenerForSingleValueEvent is Called!!")
+                articleDB.addChildEventListener (mChildListener)
+            }
+            override fun onCancelled(error: DatabaseError) {}
+        })
+
+        fragmentHomeBinding.itemRecyclerView.layoutManager = LinearLayoutManager(context)
+        fragmentHomeBinding.itemRecyclerView.adapter = articleAdapter
+        articleDB.addChildEventListener(listener)
     }
+
 
     private fun displayImageRef(imageRef: StorageReference?, view: ImageView) {
         imageRef?.getBytes(Long.MAX_VALUE)?.addOnSuccessListener {
@@ -47,5 +94,24 @@ class HomeFragment : Fragment(R.layout.item_article) {
         }?.addOnFailureListener {
             // Failed to download the image
         }
+    }
+
+    private val mChildListener = object : ChildEventListener {
+        override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+            // DB에 article이 추가될때마다 동작하는 리스너
+            // article 자체를 객체를 통해서 주고받음
+            val articleModel = snapshot.getValue(ArticleModel::class.java)
+            Log.d(TAG,"addChildEventListener is Called!! now size : ${articleList.size}")
+            articleModel ?: return // null시 반환
+            articleList.add(articleModel)
+            articleAdapter.submitList(articleList)
+            articleAdapter.notifyDataSetChanged() // 추가
+        }
+
+        override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}
+        override fun onChildRemoved(snapshot: DataSnapshot) {}
+        override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
+        override fun onCancelled(error: DatabaseError) {}
+
     }
 }
