@@ -9,6 +9,10 @@ import com.example.today_ootd.R
 import com.example.today_ootd.databinding.FragmentMypageBinding
 import com.example.today_ootd.model.FollowModel
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -30,8 +34,9 @@ class MypageFragment : Fragment() {
     private var uid : String? = null
     private var currentUid : String? = null
     private lateinit var firestore : FirebaseFirestore
-    private lateinit var auth : FirebaseAuth
-    private var binding : FragmentMypageBinding? = null
+    var auth : FirebaseAuth? = null
+    val db = Firebase.database
+    val userRef = db.getReference("user") // user 정보 레퍼런스
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,21 +54,26 @@ class MypageFragment : Fragment() {
     ): View? {
         firestore = Firebase.firestore
         auth = FirebaseAuth.getInstance()
-        binding = FragmentMypageBinding.inflate(inflater, container, false)
+        val binding = FragmentMypageBinding.inflate(inflater, container, false)
 
-        currentUid = auth.currentUser!!.uid
+        currentUid = auth!!.currentUser!!.uid
         uid = arguments?.getString("destinationUid")
 
-        if (uid == currentUid){
-            // My Page
+        // 유저 정보 설정 (이름, 이메일, 닉네임)
+        userRef.child(currentUid!!).addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                binding.myName.text = snapshot.child("name").value.toString()
+                binding.myEmail.text = snapshot.child("id").value.toString()
+                binding.myNickname.text = snapshot.child("nickname").value.toString()
+            }
 
-        }
-        else {
-            // Other User Page
-        }
+            override fun onCancelled(error: DatabaseError) {
 
+            }
+
+        })
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_mypage, container, false)
+        return binding.root
     }
 
     companion object {

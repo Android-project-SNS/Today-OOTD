@@ -81,9 +81,10 @@ class SignupActivity : AppCompatActivity() {
 
     // 유저 정보 기입 (이름, 닉네임, 키)
     private fun addInformation() {
-        val name = findViewById<EditText>(R.id.signName).text.toString()
-        val nickname = findViewById<EditText>(R.id.signNickName).text.toString()
-        val height = Integer.parseInt(findViewById<EditText>(R.id.signHeight).text.toString())
+        val id = binding.signID.text.toString()
+        val name = binding.signName.text.toString()
+        val nickname = binding.signNickName.text.toString()
+        val height = Integer.parseInt(binding.signHeight.text.toString())
 
 //        // 유저 정보 맵
 //        val userMap = hashMapOf(
@@ -91,7 +92,7 @@ class SignupActivity : AppCompatActivity() {
 //            "nickname" to nickname,
 //            "height" to height
 //        )
-        val userMap = UserModel(name, nickname, height)
+        val userMap = UserModel(id, name, nickname, height)
 
         // uid로 child 생성
         val currentUid = auth?.currentUser!!.uid
