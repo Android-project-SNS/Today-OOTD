@@ -287,11 +287,11 @@
 
             <ImageView
                 android:id="@+id/addImageButton"
-                android:layout_width="135dp"
-                android:layout_height="135dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="15dp"
-                android:background="@drawable/ic_upload" />
+                app:srcCompat="@drawable/ic_upload" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/submitButton"
@@ -304,6 +304,7 @@
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold" />
+
         </LinearLayout>
     </ScrollView>
 
