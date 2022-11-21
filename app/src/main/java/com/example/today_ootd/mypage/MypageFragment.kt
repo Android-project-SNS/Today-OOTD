@@ -68,6 +68,7 @@ class MypageFragment : Fragment() {
             activity?.finish()
             startActivity(Intent(activity, LoginActivity::class.java))
         }
+        
         // 유저 정보 설정 (이름, 이메일, 닉네임)
         userRef.child(currentUid!!).addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
