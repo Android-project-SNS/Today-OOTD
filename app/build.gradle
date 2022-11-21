@@ -4,6 +4,11 @@ plugins {
     id 'com.google.gms.google-services'
     id 'com.google.firebase.crashlytics'
 }
+apply plugin : 'kotlin-kapt'
+
+// local.properties 사용을 위함
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
 android {
     namespace 'com.example.today_ootd'
@@ -17,6 +22,12 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // url 변수 지정
+        buildConfigField "String", "URL_WEATHER", properties['URL_WEATHER']
+
+        // api key 변수 지정
+        buildConfigField "String", "API_KEY", properties['API_KEY']
     }
     buildFeatures
             {
