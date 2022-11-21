@@ -50,7 +50,7 @@ class UploadActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener {
         binding = ActivityUploadBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.addImageButton.setOnClickListener {
+        binding.submitButton.setOnClickListener {
             startContentProvider()
             when {
                 checkSelfPermission(
@@ -82,8 +82,8 @@ class UploadActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener {
         }
 
         binding.submitButton.setOnClickListener {
-            val title = binding.addTitleEditText.text.toString()
-            val weather = binding.addPrcieEditText.text.toString()
+            //val title = binding.addTitleEditText.text.toString()
+            val weather = binding.todayTemperature.text.toString()
             val sellerId = auth.currentUser?.uid.orEmpty()
 
             showProgress()
@@ -93,7 +93,7 @@ class UploadActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener {
                 val photoUri = selectedUri ?: return@setOnClickListener
                 uploadPhoto(photoUri,
                     successHandler = { uri ->
-                        uploadArticle(sellerId, title, weather, uri)
+                        //uploadArticle(sellerId, title, weather, uri)
                     },
                     errorHandler = {
                         Toast.makeText(this, "사진 업로드에 실패했습니다.", Toast.LENGTH_SHORT).show()
@@ -101,7 +101,7 @@ class UploadActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener {
                     }
                 )
             } else {
-                uploadArticle(sellerId, title, weather, "")
+                //uploadArticle(sellerId, title, weather, "")
             }
         }
     }
