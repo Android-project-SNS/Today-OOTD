@@ -1,10 +1,12 @@
 package com.example.today_ootd.mypage
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.today_ootd.LoginActivity
 import com.example.today_ootd.R
 import com.example.today_ootd.databinding.FragmentMypageBinding
 import com.example.today_ootd.model.FollowModel
@@ -59,6 +61,14 @@ class MypageFragment : Fragment() {
         currentUid = auth!!.currentUser!!.uid
         uid = arguments?.getString("destinationUid")
 
+        // 로그아웃
+        val signoutBtn = binding.signoutBtn
+        signoutBtn.setOnClickListener { 
+            auth?.signOut()
+            activity?.finish()
+            startActivity(Intent(activity, LoginActivity::class.java))
+        }
+        
         // 유저 정보 설정 (이름, 이메일, 닉네임)
         userRef.child(currentUid!!).addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
