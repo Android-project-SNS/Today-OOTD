@@ -93,7 +93,8 @@
                     android:gravity="center"
                     android:hint=""
                     android:inputType="number"
-                    android:text="" />
+                    android:text=""
+                    tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -153,7 +154,8 @@
                 android:ems="10"
                 android:gravity="center"
                 android:hint="@string/input_brand"
-                android:text="" />
+                android:text=""
+                tools:ignore="TouchTargetSizeCheck" />
 
             <TextView
                 android:id="@+id/my_topText"
@@ -176,7 +178,8 @@
                 android:ems="10"
                 android:gravity="center"
                 android:hint="@string/input_brand"
-                android:text="" />
+                android:text=""
+                tools:ignore="TouchTargetSizeCheck" />
 
             <TextView
                 android:id="@+id/my_bottomText"
@@ -222,7 +225,8 @@
                 android:ems="10"
                 android:gravity="center"
                 android:hint="@string/input_brand"
-                android:text="" />
+                android:text=""
+                tools:ignore="TouchTargetSizeCheck" />
 
             <TextView
                 android:id="@+id/my_bagText"
@@ -282,7 +286,7 @@
                 android:textSize="20sp" />
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/addImageButton"
                 android:layout_width="135dp"
                 android:layout_height="135dp"
                 android:layout_marginStart="15dp"
