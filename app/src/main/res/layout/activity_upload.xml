@@ -9,6 +9,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:foregroundGravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -16,6 +18,63 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/my_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_alignParentTop="true"
+                android:background="@color/skyblue"
+                app:layout_constraintBottom_toTopOf="@+id/fragmentCotainer"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/toolbar_btn_back"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="22dp"
+                        android:src="@drawable/ohmae" />
+
+                    <ImageView
+                        android:id="@+id/toolbar_btn_search"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="349dp"
+                        android:layout_marginRight="22dp"
+                        android:src="@drawable/ic_search" />
+
+
+                </RelativeLayout>
+            </androidx.appcompat.widget.Toolbar>
+
+            <EditText
+                android:id="@+id/addPrcieEditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginStart="98dp"
+                android:layout_marginTop="74dp"
+                android:ems="10"
+                android:gravity="start"
+                android:inputType="number"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/addTitleEditText"
+                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck"
+                android:layout_weight="1"/>
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
             <EditText
                 android:id="@+id/addTitleEditText"
@@ -28,24 +87,36 @@
                 android:text="title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="TouchTargetSizeCheck" />
-
-            <Spinner
-                android:id="@+id/spinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:ignore="SpeakableTextPresentCheck" />
+                tools:ignore="TouchTargetSizeCheck"
+                android:layout_weight="1"/>
 
             <EditText
-                android:id="@+id/addPrcieEditText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="98dp"
-                android:layout_marginTop="74dp"
+                android:id="@+id/addTitleEditText2"
+                android:layout_width="304dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="86dp"
+                android:layout_marginTop="77dp"
+                android:layout_weight="1"
                 android:ems="10"
-                android:inputType="number"
+                android:inputType="textPersonName"
+                android:text="title"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/addTitleEditText"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <EditText
+                android:id="@+id/addTitleEditText3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="86dp"
+                android:layout_marginTop="77dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="TouchTargetSizeCheck" />
 
             <ImageView
@@ -61,11 +132,14 @@
                 android:id="@+id/addImageButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="start"
                 android:layout_marginStart="159dp"
                 android:layout_marginTop="51dp"
+                android:gravity="center"
                 android:text="addimage"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView" />
+                app:layout_constraintTop_toBottomOf="@+id/imageView"
+                android:layout_weight="1"/>
 
             <Button
                 android:id="@+id/submitButton"
@@ -75,20 +149,21 @@
                 android:layout_marginTop="71dp"
                 android:text="submit"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/addImageButton" />
-
-            <ProgressBar
-                android:id="@+id/progressBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:visibility="visible" />
+                app:layout_constraintTop_toBottomOf="@+id/addImageButton"
+                android:layout_weight="1"/>
 
         </LinearLayout>
     </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
