@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import com.example.today_ootd.R
 import com.example.today_ootd.databinding.FragmentMypageBinding
 import com.example.today_ootd.model.FollowModel
@@ -42,7 +41,6 @@ class MypageFragment : Fragment() {
             param2 = it.getString(ARG_PARAM2)
         }
 
-
     }
 
     override fun onCreateView(
@@ -55,6 +53,17 @@ class MypageFragment : Fragment() {
 
         currentUid = auth.currentUser!!.uid
         uid = arguments?.getString("destinationUid")
+
+        binding!!.accountBtnFollowSignout.setOnClickListener {
+
+        }
+        if (uid == currentUid){
+            // My Page
+
+        }
+        else {
+            // Other User Page
+        }
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_mypage, container, false)
