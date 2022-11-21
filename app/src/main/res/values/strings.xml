@@ -55,4 +55,15 @@
     <item name="masked" type="id" />
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="planets_array">
+        <item>스트릿</item>
+        <item>아메카지</item>
+        <item>캐주얼</item>
+        <item>댄디</item>
+        <item>걸리시</item>
+        <item>Saturn</item>
+        <item>Uranus</item>
+        <item>Neptune</item>
+    </string-array>
 </resources>

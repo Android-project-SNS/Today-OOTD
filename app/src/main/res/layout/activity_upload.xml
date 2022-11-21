@@ -30,6 +30,12 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="TouchTargetSizeCheck" />
 
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:ignore="SpeakableTextPresentCheck" />
+
             <EditText
                 android:id="@+id/addPrcieEditText"
                 android:layout_width="wrap_content"

@@ -8,10 +8,13 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.*
 import androidx.core.view.isVisible
+import com.example.today_ootd.R
 import com.example.today_ootd.databinding.ActivityUploadBinding
 import com.example.today_ootd.model.ArticleModel
 import com.google.firebase.auth.FirebaseAuth
@@ -63,9 +66,22 @@ class UploadActivity : AppCompatActivity() {
             }
         }
 
+        val spinner: Spinner = findViewById(R.id.spinner)
+// Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.planets_array,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            // Apply the adapter to the spinner
+            spinner.adapter = adapter
+        }
+
         binding.submitButton.setOnClickListener {
             val title = binding.addTitleEditText.text.toString()
-            val price = binding.addPrcieEditText.text.toString()
+            val weather = binding.addPrcieEditText.text.toString()
             val sellerId = auth.currentUser?.uid.orEmpty()
 
             showProgress()
@@ -75,7 +91,7 @@ class UploadActivity : AppCompatActivity() {
                 val photoUri = selectedUri ?: return@setOnClickListener
                 uploadPhoto(photoUri,
                     successHandler = { uri ->
-                        uploadArticle(sellerId, title, price, uri)
+                        uploadArticle(sellerId, title, weather, uri)
                     },
                     errorHandler = {
                         Toast.makeText(this, "사진 업로드에 실패했습니다.", Toast.LENGTH_SHORT).show()
@@ -83,7 +99,7 @@ class UploadActivity : AppCompatActivity() {
                     }
                 )
             } else {
-                uploadArticle(sellerId, title, price, "")
+                uploadArticle(sellerId, title, weather, "")
             }
         }
     }
@@ -109,8 +125,8 @@ class UploadActivity : AppCompatActivity() {
     }
 
     //DB에 글 업로드 함수
-    private fun uploadArticle(sellerId: String, title: String, price: String, imageUrl: String) {
-        val model = ArticleModel(sellerId, title, System.currentTimeMillis(), "$price ℃", imageUrl)
+    private fun uploadArticle(sellerId: String, outer: String, weather: String, imageUrl: String) {
+        val model = ArticleModel(sellerId, outer, System.currentTimeMillis(), "$weather ℃", imageUrl)
         articleDB.push().setValue(model)
 
         hideProgress()
@@ -164,6 +180,7 @@ class UploadActivity : AppCompatActivity() {
             }
             .create()
             .show()
-
     }
+
+
 }
