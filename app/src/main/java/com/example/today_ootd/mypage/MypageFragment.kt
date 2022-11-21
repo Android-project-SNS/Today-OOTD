@@ -54,9 +54,6 @@ class MypageFragment : Fragment() {
         currentUid = auth.currentUser!!.uid
         uid = arguments?.getString("destinationUid")
 
-        binding!!.accountBtnFollowSignout.setOnClickListener {
-
-        }
         if (uid == currentUid){
             // My Page
 
