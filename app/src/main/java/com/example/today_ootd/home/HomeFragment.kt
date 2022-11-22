@@ -68,7 +68,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 //            add(ArticleModel("1","맥북 프로16인치","","","","","",0,"",imageRef1.toString()))
 //        })
         articleList.clear()
-        articleDB = Firebase.database.reference.child("items")
+        articleDB = Firebase.database.reference.child("OOTD")
         articleDB.addChildEventListener(mChildListener)
         Log.d(TAG,"after addChildEventListener! now size : ${articleList.size}")
 
@@ -76,7 +76,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             override fun onDataChange(snapshot: DataSnapshot) {
                 articleList.clear()
                 Log.d(TAG,"addListenerForSingleValueEvent is Called!!")
-                articleDB.addChildEventListener (mChildListener)
+                articleDB.addChildEventListener(mChildListener)
             }
             override fun onCancelled(error: DatabaseError) {}
         })
