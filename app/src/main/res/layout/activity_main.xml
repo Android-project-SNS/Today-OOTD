@@ -10,7 +10,7 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="50dp"
         android:layout_alignParentTop="true"
         android:background="@color/skyblue"
         app:layout_constraintBottom_toTopOf="@+id/fragmentCotainer"
@@ -33,9 +33,9 @@
             <ImageView
                 android:id="@+id/toolbar_btn_search"
                 android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
-                android:layout_marginLeft="349dp"
+                android:layout_marginLeft="330dp"
                 android:layout_marginRight="22dp"
                 android:src="@drawable/ic_search" />
 

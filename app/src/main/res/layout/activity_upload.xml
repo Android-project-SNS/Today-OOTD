@@ -42,17 +42,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginRight="22dp"
                         android:src="@drawable/ohmae" />
-
-                    <ImageView
-                        android:id="@+id/toolbar_btn_search"
-                        android:layout_width="35dp"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentLeft="true"
-                        android:layout_marginStart="349dp"
-                        android:layout_marginRight="22dp"
-                        android:src="@drawable/ic_search" />
-
-
+                    
                 </RelativeLayout>
             </androidx.appcompat.widget.Toolbar>
 
