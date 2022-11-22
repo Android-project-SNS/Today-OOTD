@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".mypage.MypageFragment"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="#EAEAEA">
+
+        <EditText
+            android:id="@+id/search_user_name"
+            android:layout_width="250dp"
+            android:layout_height="45dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="30dp"
+            android:hint="@string/input_friend_name"
+            android:background="@drawable/round_border" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/searchBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:layout_toRightOf="@id/search_user_name"
+            android:background="#6799FF"
+            android:text="검색"
+            android:textSize="15sp"/>
+    </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/userRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="633dp" />
+</LinearLayout>
+</LinearLayout>

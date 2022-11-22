@@ -9,6 +9,7 @@ import com.example.today_ootd.databinding.ActivityMainBinding
 import com.example.today_ootd.favorite.FavoriteFragment
 import com.example.today_ootd.home.HomeFragment
 import com.example.today_ootd.mypage.MypageFragment
+import com.example.today_ootd.search.SearchFragment
 import com.example.today_ootd.upload.UploadActivity
 
 class MainActivity : AppCompatActivity() {
@@ -22,6 +23,7 @@ class MainActivity : AppCompatActivity() {
         val homeFragment = HomeFragment()
         val favoriteFragment = FavoriteFragment()
         val myPageFragment = MypageFragment()
+        val searchFragment = SearchFragment()
         val intent = Intent(this, UploadActivity::class.java)
 
         //로그인 시에만 업로드 가능하게 하고싶은 경오
@@ -32,7 +34,9 @@ class MainActivity : AppCompatActivity() {
 //                } else {
 //                    Snackbar.make(view, "로그인 후 사용해주세요", Snackbar.LENGTH_LONG).show()
 //                }
-
+        binding!!.toolbarBtnSearch?.setOnClickListener {
+            replaceFragment(searchFragment)
+        }
 
         binding!!.bottomNavigationView?.setOnItemSelectedListener { MenuItem ->
             when (MenuItem.itemId) {
