@@ -65,7 +65,7 @@
     <string name="shoes">신발</string>
     <string name="bag">가방</string>
     <string name="today_picture">오늘 사진</string>
-    <string name="input_friend_name">검색할 친구 이름을 입력해주세요</string>
+    <string name="input_friend_name">검색할 친구 닉네임을 입력해주세요</string>
 
     <string-array name="planets_array">
         <item>스트릿</item>

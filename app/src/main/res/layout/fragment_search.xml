@@ -22,6 +22,7 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="30dp"
             android:hint="@string/input_friend_name"
+            android:textSize="15sp"
             android:background="@drawable/round_border" />
 
         <androidx.appcompat.widget.AppCompatButton
