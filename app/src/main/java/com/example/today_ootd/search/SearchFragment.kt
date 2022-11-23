@@ -35,9 +35,9 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        firestore = Firebase.firestore
         binding = FragmentSearchBinding.inflate(inflater, container, false)
         auth = FirebaseAuth.getInstance()
+        firestore = Firebase.firestore
         currentUid = auth!!.currentUser!!.uid
 
         // 검색 버튼
@@ -55,8 +55,9 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         userRef.addValueEventListener(object : ValueEventListener {
             val nicknames = mutableListOf<String>()
             val uids = mutableListOf<String>()
+
             // 검색하고자 하는 닉네임
-            val userNickame = binding!!.searchUserName.text.toString()
+            val userNickname = binding!!.searchUserName.text.toString()
 
             override fun onDataChange(snapshot: DataSnapshot) {
                 for (child in snapshot.children){
@@ -64,12 +65,14 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                     nicknames.add(nicknameMap["nickname"].toString())
                     uids.add(child.key.toString())
                 }
-                targetUid = uids[3]
                 // 존재하는 유저라면
-                if (nicknames.contains(userNickame)){
+                if (nicknames.contains(userNickname)){
+                    val index = nicknames.indexOf(userNickname)
+                    println(index)
+                    targetUid = uids[index]
                     // 유저 검색 결과
                     val recyclerView = binding!!.userRecyclerView
-                    val adapter = UserListAdapter(userNickame)
+                    val adapter = UserListAdapter(userNickname)
                     recyclerView.adapter = adapter
                     recyclerView.layoutManager = LinearLayoutManager(context)
                 }
@@ -85,6 +88,14 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         })
     }
 
+//    private fun indexFind(nicknames: MutableList<String>, userNickname: String): Int {
+//        for (i in 0 until nicknames.size){
+//            if (nicknames[i] == userNickname)
+//                return i
+//        }
+//        return -1
+//    }
+
     // 팔로우 기능
     fun requestFollow(){
         //println(targetUid)
@@ -95,20 +106,19 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             if (followModel == null){
                 followModel = FollowModel()
                 followModel!!.followingCount = 1
-                followModel!!.followers[targetUid!!] = true
+                followModel!!.following[targetUid!!] = true
 
                 transaction.set(tsDocFollowing, followModel)
                 return@runTransaction
             }
-
             // 이미 팔로우한 유저라면 (취소)
-            if (followModel.following.containsKey(targetUid!!)){
-                followModel?.followingCount = followModel?.followingCount?.minus(1)!!
-                followModel?.followers?.remove(targetUid!!)
+            if (followModel.following.containsKey(targetUid)){
+                followModel!!.followingCount = followModel!!.followingCount - 1
+                followModel!!.following?.remove(targetUid)
             }
             // 팔로우 하고 있지 않다면 (팔로우)
             else{
-                followModel?.followingCount = followModel?.followingCount?.plus(1)!!
+                followModel!!.followingCount = followModel!!.followerCount + 1
                 followModel?.following?.set(targetUid!!, true)
             }
             transaction.set(tsDocFollowing, followModel)
@@ -121,7 +131,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             if (followModel == null) {
                 followModel = FollowModel()
                 followModel!!.followerCount = 1
-                followModel!!.following[currentUid!!] = true
+                followModel!!.followers[currentUid!!] = true
 
                 transaction.set(tsDocFollower, followModel!!)
                 return@runTransaction
