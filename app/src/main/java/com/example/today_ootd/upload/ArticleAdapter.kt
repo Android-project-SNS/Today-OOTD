@@ -17,7 +17,7 @@ class ArticleAdapter: ListAdapter<ArticleModel, ArticleAdapter.ViewHolder>(diffU
             val format = SimpleDateFormat("MM년dd일")
             val date = Date(articleModel.createdAt)
 
-            binding.titleTextView.text = articleModel.sellerId
+            binding.titleTextView.text = articleModel.nickname
             binding.dateTextView.text = format.format(date).toString()
             binding.priceTextView.text = articleModel.whether
             if(articleModel.imageUrl.isNotEmpty()){

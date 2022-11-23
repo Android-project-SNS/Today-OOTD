@@ -10,7 +10,9 @@ data class ArticleModel (
     val acc: String,
     val createdAt : Long,
     val whether : String,
-    val imageUrl : String
+    val imageUrl : String,
+    val nickname: String,
+    val style: String
 ){
-    constructor() : this("","","","","","","",0,"","")
+    constructor() : this("","","","","","","",0,"","","","")
 }

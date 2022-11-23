@@ -8,6 +8,9 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.ContactsContract.CommonDataKinds.Nickname
+import android.provider.ContactsContract.Data
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -32,7 +35,7 @@ import com.google.firebase.storage.ktx.storage
 class UploadActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener {
     lateinit var binding: ActivityUploadBinding
     val db : FirebaseFirestore = Firebase.firestore
-    val itemsCollectionRef = db.collection("item")
+    val itemsCollectionRef = db.collection("OOTD")
     private var selectedUri: Uri? = null
     private val auth: FirebaseAuth by lazy {
         Firebase.auth
@@ -42,6 +45,9 @@ class UploadActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener {
     }
     private val articleDB: DatabaseReference by lazy {
         Firebase.database.reference.child("OOTD")
+    }
+    private val userDB:DatabaseReference by lazy{
+        Firebase.database.reference.child("user")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -90,7 +96,10 @@ class UploadActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener {
             val shoes = binding.myShoes.text.toString()
             val bag = binding.myBag.text.toString()
             val acc = binding.myAcc.text.toString()
+            val nickname = userDB.child("${auth.currentUser?.uid}").child("nickname").toString()
+            val style = binding.spinner.toString()
 
+            Log.d("nickname",nickname)
             showProgress()
 
             // 중간에 이미지가 있으면 업로드 과정을 추가
@@ -98,7 +107,7 @@ class UploadActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener {
                 val photoUri = selectedUri ?: return@setOnClickListener
                 uploadPhoto(photoUri,
                     successHandler = { uri ->
-                        uploadArticle(sellerId, outer,top,bottom,shoes,bag,acc,weather,uri)
+                        uploadArticle(sellerId, outer,top,bottom,shoes,bag,acc,weather,uri,nickname,style)
                     },
                     errorHandler = {
                         Toast.makeText(this, "사진 업로드에 실패했습니다.", Toast.LENGTH_SHORT).show()
@@ -106,7 +115,7 @@ class UploadActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener {
                     }
                 )
             } else {
-                uploadArticle(sellerId, outer,top,bottom,shoes,bag,acc,weather, "")
+                uploadArticle(sellerId, outer,top,bottom,shoes,bag,acc,weather, "", nickname, style)
             }
         }
     }
@@ -141,8 +150,8 @@ class UploadActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener {
     }
 
     //DB에 글 업로드 함수
-    private fun uploadArticle(sellerId: String, outer: String,top:String,bottom:String,shoes:String,bag:String,acc:String,weather: String, imageUrl: String) {
-        val model = ArticleModel(sellerId,outer, top, bottom, shoes, bag, acc, System.currentTimeMillis(),"$weather ℃", imageUrl)
+    private fun uploadArticle(sellerId: String, outer: String,top:String,bottom:String,shoes:String,bag:String,acc:String,weather: String, imageUrl: String, nickname: String, style:String) {
+        val model = ArticleModel(sellerId,outer, top, bottom, shoes, bag, acc, System.currentTimeMillis(),"$weather ℃", imageUrl,nickname,style)
         articleDB.push().setValue(model)
 
         hideProgress()
