@@ -122,10 +122,10 @@
                 android:layout_weight="1"/>
 
             <TextView
+                android:id="@+id/account_following_textview"
                 android:text="0"
                 android:textColor="@color/black"
                 android:gravity="center"
-                android:id="@+id/account_following_textview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"/>

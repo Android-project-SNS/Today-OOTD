@@ -31,6 +31,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     var auth : FirebaseAuth? = null
     val db = Firebase.database
     val userRef = db.getReference("user") // user 정보 레퍼런스
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

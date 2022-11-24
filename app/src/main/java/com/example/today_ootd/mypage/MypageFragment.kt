@@ -20,9 +20,12 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
+import com.example.today_ootd.R
+import com.google.firebase.firestore.ktx.toObject
 
-class MypageFragment : Fragment() {
+class MypageFragment : Fragment(R.layout.fragment_mypage) {
     private var currentUid : String? = null
+    private lateinit var firestore : FirebaseFirestore
     var auth : FirebaseAuth? = null
     val db = Firebase.database
     val userRef = db.getReference("user") // user 정보 레퍼런스
@@ -56,16 +59,17 @@ class MypageFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         auth = FirebaseAuth.getInstance()
-        val binding = FragmentMypageBinding.inflate(inflater, container, false)
+        binding = FragmentMypageBinding.inflate(inflater, container, false)
         //binding = itemArticleBidning
         storage = Firebase.storage
+        firestore = Firebase.firestore
 
-        binding.accountRecyclerview.adapter = mypageAdapter
+        binding!!.accountRecyclerview.adapter = mypageAdapter
 
         currentUid = auth!!.currentUser!!.uid
 
         // 로그아웃
-        val signoutBtn = binding.signoutBtn
+        val signoutBtn = binding!!.signoutBtn
         signoutBtn.setOnClickListener { 
             auth?.signOut()
             activity?.finish()
@@ -75,9 +79,9 @@ class MypageFragment : Fragment() {
         // 유저 정보 설정 (이름, 이메일, 닉네임)
         userRef.child(currentUid!!).addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                binding.myName.text = snapshot.child("name").value.toString()
-                binding.myEmail.text = snapshot.child("id").value.toString()
-                binding.myNickname.text = snapshot.child("nickname").value.toString()
+                binding!!.myName.text = snapshot.child("name").value.toString()
+                binding!!.myEmail.text = snapshot.child("id").value.toString()
+                binding!!.myNickname.text = snapshot.child("nickname").value.toString()
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -85,7 +89,26 @@ class MypageFragment : Fragment() {
             }
 
         })
+
+        // 팔로워 수 팔로잉 수 표시
+        getFollowerFollowingCount()
+
         // Inflate the layout for this fragment
-        return binding.root
+        return binding!!.root
+    }
+
+    fun getFollowerFollowingCount() {
+        firestore.collection("users").document(currentUid!!).addSnapshotListener { value, error ->
+            if (value == null) {
+                binding!!.accountFollowerTextview.text = "0"
+                binding!!.accountFollowingTextview.text = "0"
+                return@addSnapshotListener
+            }
+            else {
+                val followModel = value.toObject(FollowModel::class.java)!!
+                binding!!.accountFollowerTextview.text = followModel?.followerCount.toString()
+                binding!!.accountFollowingTextview.text = followModel?.followingCount.toString()
+            }
+        }
     }
 }
