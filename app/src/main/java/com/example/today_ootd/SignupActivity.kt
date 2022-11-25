@@ -1,11 +1,13 @@
 package com.example.today_ootd
 
+import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.example.today_ootd.databinding.ActivitySignupBinding
 import com.example.today_ootd.databinding.ActivityUploadBinding
 import com.example.today_ootd.model.UserModel
@@ -113,8 +115,14 @@ class SignupActivity : AppCompatActivity() {
                 }
 
                 if (nicknames.contains(nickname)){ // 닉네임이 중복되는 경우
-                    val nicknameError = binding.nicknameError
-                    nicknameError.text = "중복 닉네임"
+                    AlertDialog.Builder(this@SignupActivity)
+                        .setTitle("오류")
+                        .setMessage("중복 닉네임입니다.")
+                        .setPositiveButton("확인", DialogInterface.OnClickListener { dialog, id ->
+                            val nicknameError = binding.nicknameError
+                            nicknameError.text = "중복 닉네임"
+                        })
+                        .show()
                 }
                 else { // 닉네임이 중복되지 않는 경우
                     signUp()
