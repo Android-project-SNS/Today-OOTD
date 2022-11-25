@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.today_ootd.LoginActivity
 import com.example.today_ootd.databinding.FragmentHomeBinding
 import com.example.today_ootd.databinding.FragmentMypageBinding
@@ -44,7 +45,7 @@ class MypageFragment : Fragment(R.layout.fragment_mypage) {
             val articleModel = snapshot.getValue(ArticleModel::class.java)
             articleModel ?: return
 
-            articleList.add(articleModel)
+            articleList.add(0,articleModel)
             mypageAdapter.submitList(articleList)
 
         }
@@ -100,6 +101,11 @@ class MypageFragment : Fragment(R.layout.fragment_mypage) {
 
         // Inflate the layout for this fragment
         return binding!!.root
+
+        binding!!.accountRecyclerview.layoutManager = LinearLayoutManager(context)
+        binding!!.accountRecyclerview.adapter = mypageAdapter
+        articleDB.addChildEventListener(listener)
+
     }
 
     fun getFollowerFollowingCount() {
@@ -135,4 +141,7 @@ class MypageFragment : Fragment(R.layout.fragment_mypage) {
 
         })
     }
+
+
+
 }
