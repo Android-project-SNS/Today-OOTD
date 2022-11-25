@@ -61,7 +61,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         articleList.clear()
         articleDB = Firebase.database.reference.child("OOTD")
-        //articleDB.addChildEventListener(mChildListener)
         Log.d(TAG,"after addChildEventListener! now size : ${articleList.size}")
 
         articleDB.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -70,10 +69,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 snapshot.children.forEach {
                     val model = it.getValue(ArticleModel::class.java)
                     model ?: return
-                    articleList.add(model)
+                    articleList.add(0,model)
                 }
                 Log.d(TAG,"addListenerForSingleValueEvent is Called!!")
-                //articleDB.addChildEventListener(mChildListener)
                 articleAdapter.submitList(articleList)
                 articleAdapter.notifyDataSetChanged()
             }
@@ -83,6 +81,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         fragmentHomeBinding.itemRecyclerView.layoutManager = LinearLayoutManager(context)
         fragmentHomeBinding.itemRecyclerView.adapter = articleAdapter
         articleDB.addChildEventListener(listener)
+
+        val manager = LinearLayoutManager(context)
+        manager.reverseLayout = true
+        manager.stackFromEnd = true
+
+
+
+
     }
 
 

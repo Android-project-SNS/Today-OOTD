@@ -117,7 +117,7 @@ class UploadActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener {
                 }
 
             })
-            println("닉네임은?@?@?@"+nickname)
+            println("############################닉네임은???: "+nickname)
 
             //Log.d("nickname",nickname)
             showProgress()
