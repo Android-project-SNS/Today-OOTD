@@ -10,6 +10,7 @@ import com.example.today_ootd.favorite.FavoriteFragment
 import com.example.today_ootd.home.HomeFragment
 import com.example.today_ootd.mypage.MypageFragment
 import com.example.today_ootd.upload.UploadActivity
+import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 
 class MainActivity : AppCompatActivity() {
@@ -55,12 +56,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     //HomeFragment에 weather location 전달
-    private fun sendLocation(fragment: Fragment){
-        val bundle = Bundle(1) // 파라미터의 숫자는 전달하려는 값의 갯수
-
+    fun sendLocation(): FusedLocationProviderClient {
         // 현재 위치의 날씨정보 설정하기
-        val locationClient = LocationServices.getFusedLocationProviderClient(this@MainActivity)
-        bundle.putString("location", locationClient.toString())
+        return LocationServices.getFusedLocationProviderClient(this@MainActivity)
     }
 
 }
