@@ -1,5 +1,6 @@
 package com.example.today_ootd.mypage
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.today_ootd.LoginActivity
+import com.example.today_ootd.MainActivity
 import com.example.today_ootd.databinding.FragmentHomeBinding
 import com.example.today_ootd.databinding.FragmentMypageBinding
 import com.example.today_ootd.model.ArticleModel
@@ -58,6 +60,10 @@ class MypageFragment : Fragment(R.layout.fragment_mypage) {
         override fun onCancelled(error: DatabaseError) {}
     }
 
+//    override fun onAttach(context: Context) {
+//        super.onAttach(context)
+//        mainActivity = context as MainActivity
+//    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -91,7 +97,6 @@ class MypageFragment : Fragment(R.layout.fragment_mypage) {
             override fun onCancelled(error: DatabaseError) {
 
             }
-
         })
 
         // 팔로워 수 팔로잉 수 표시
@@ -99,6 +104,22 @@ class MypageFragment : Fragment(R.layout.fragment_mypage) {
         // 게시물 개수 표시
         getPostCount()
 
+        // 팔로워 목록, 팔로잉 목록
+        val showFollower = binding!!.accountFollowerTextview
+        val showFollowing = binding!!.accountFollowingTextview
+
+        val showFriendFragment = ShowFriendFragment()
+
+        val mainActivity = context as MainActivity
+        showFollower.setOnClickListener {
+            //mainActivity.replaceFragment(showFriendFragment)
+            mainActivity.supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, showFriendFragment)
+                .commit()
+        }
+        showFollowing.setOnClickListener {
+
+        }
         // Inflate the layout for this fragment
         return binding!!.root
 

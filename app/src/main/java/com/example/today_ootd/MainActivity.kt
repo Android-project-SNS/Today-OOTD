@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
         Log.d("MainActivity","${fragment}")
         supportFragmentManager.beginTransaction()
             .apply {
-                replace(R.id.fragmentCotainer,fragment)
+                replace(R.id.fragmentContainer,fragment)
                 commit()
             }
     }

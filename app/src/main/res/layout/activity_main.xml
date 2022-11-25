@@ -13,7 +13,7 @@
         android:layout_height="50dp"
         android:layout_alignParentTop="true"
         android:background="@color/skyblue"
-        app:layout_constraintBottom_toTopOf="@+id/fragmentCotainer"
+        app:layout_constraintBottom_toTopOf="@+id/fragmentContainer"
         app:layout_constraintEnd_toEndOf="parent">
 
         <RelativeLayout
@@ -44,7 +44,7 @@
     </androidx.appcompat.widget.Toolbar>
 
     <FrameLayout
-        android:id="@+id/fragmentCotainer"
+        android:id="@+id/fragmentContainer"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="#FFFFFF"
