@@ -54,7 +54,7 @@ class UploadActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener {
         Firebase.database.reference.child("user")
     }
     private var currentUid : String? = auth!!.currentUser!!.uid
-    private var nickname : String = "왜안들어와"
+    private var nickname : String = ""
     private var height : Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
