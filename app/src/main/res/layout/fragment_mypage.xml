@@ -44,17 +44,18 @@
                 android:layout_weight="1"/>
 
         </LinearLayout>
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/signout_btn"
-            android:text="로그아웃"
-            android:gravity="center"
-            android:background="#FFA7A7"
-            android:layout_alignParentRight="true"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
             android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
             android:layout_marginRight="15dp"
-            android:layout_height="20dp">
+            android:background="#FFA7A7"
+            android:gravity="center"
+            android:text="로그아웃"
+            tools:ignore="TouchTargetSizeCheck">
 
 
         </androidx.appcompat.widget.AppCompatButton>

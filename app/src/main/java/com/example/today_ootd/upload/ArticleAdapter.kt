@@ -20,8 +20,8 @@ class ArticleAdapter: ListAdapter<ArticleModel, ArticleAdapter.ViewHolder>(diffU
             binding.titleTextView.text = articleModel.nickname
             //binding.dateTextView.text = format.format(date).toString()
             binding.dateTextView.text = articleModel.style
-            binding.priceTextView.text = articleModel.whether
-            binding.textView.text = articleModel.height.toString()
+            binding.heightTextView.text = articleModel.whether
+            binding.priceTextView2.text = articleModel.height.toString()
             if(articleModel.imageUrl.isNotEmpty()){
                 Glide.with(binding.thumbnailImageView)
                     .load(articleModel.imageUrl)
