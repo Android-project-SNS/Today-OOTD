@@ -29,6 +29,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     private var currentUid : String? = null
     //private var uid : String? = null
     private var targetUid : String? = null // 팔로우할 대상 uid
+    private var myNickname : String? = null // 나의 닉네임
     var auth : FirebaseAuth? = null
     val db = Firebase.database
     val userRef = db.getReference("user") // user 정보 레퍼런스
@@ -54,21 +55,21 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
     // 존재하는 유저인지 아닌지 확인
     private fun existUser() {
+        getMyNickname()
         userRef.addValueEventListener(object : ValueEventListener {
             val nicknames = mutableListOf<String>()
             val uids = mutableListOf<String>()
 
             // 검색하고자 하는 닉네임
             val userNickname = binding!!.searchUserName.text.toString()
-
             override fun onDataChange(snapshot: DataSnapshot) {
                 for (child in snapshot.children){
                     val nicknameMap = child.value as Map<*, *>
                     nicknames.add(nicknameMap["nickname"].toString())
                     uids.add(child.key.toString())
                 }
-                // 존재하는 유저라면
-                if (nicknames.contains(userNickname)){
+                // 본인이 아니고 존재하는 유저라면
+                if (nicknames.contains(userNickname) && userNickname != myNickname){
                     val index = nicknames.indexOf(userNickname)
                     println(index)
                     targetUid = uids[index]
@@ -79,7 +80,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                     recyclerView.layoutManager = LinearLayoutManager(context)
                 }
                 else {
-                    Toast.makeText(activity, "존재하지 않는 유저입니다.", Toast.LENGTH_LONG).show()
+                    Toast.makeText(activity, "존재하지 않는 유저이거나 본인입니다..", Toast.LENGTH_LONG).show()
                 }
             }
 
@@ -90,13 +91,18 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         })
     }
 
-//    private fun indexFind(nicknames: MutableList<String>, userNickname: String): Int {
-//        for (i in 0 until nicknames.size){
-//            if (nicknames[i] == userNickname)
-//                return i
-//        }
-//        return -1
-//    }
+    private fun getMyNickname() {
+        val myNicknameRef = userRef.child(currentUid!!)
+        myNicknameRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                myNickname = snapshot.child("nickname").value.toString()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        })
+    }
 
     // 팔로우 기능
     fun requestFollow(){
