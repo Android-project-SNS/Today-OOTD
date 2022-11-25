@@ -104,7 +104,7 @@ class UploadActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener {
             val bag = binding.myBag.text.toString()
             val acc = binding.myAcc.text.toString()
             //var nickname: String
-            val style = binding.spinner.toString()
+            val style = binding.spinner.selectedItem.toString()
 
             userDB.child(currentUid!!).addValueEventListener(object : ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
