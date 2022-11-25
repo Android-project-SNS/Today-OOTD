@@ -24,8 +24,12 @@ import com.example.today_ootd.databinding.ActivityUploadBinding
 import com.example.today_ootd.model.ArticleModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
+import com.google.firebase.database.ktx.snapshots
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -47,8 +51,11 @@ class UploadActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener {
         Firebase.database.reference.child("OOTD")
     }
     private val userDB:DatabaseReference by lazy{
-        Firebase.database.reference.child("user")
+        Firebase.database.reference.child("user").child("nickname")
     }
+    private var currentUid : String? = auth!!.currentUser!!.uid
+    private var nickname : String = "왜안들어와"
+    private var height : Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,10 +103,22 @@ class UploadActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener {
             val shoes = binding.myShoes.text.toString()
             val bag = binding.myBag.text.toString()
             val acc = binding.myAcc.text.toString()
-            val nickname = userDB.child("${auth.currentUser?.uid}").child("nickname").toString()
+            //var nickname: String
             val style = binding.spinner.toString()
 
-            Log.d("nickname",nickname)
+            userDB.child(currentUid!!).addValueEventListener(object : ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    nickname = snapshot.child("nickname").value.toString()
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+
+            })
+            println("닉네임은?@?@?@"+nickname)
+
+            //Log.d("nickname",nickname)
             showProgress()
 
             // 중간에 이미지가 있으면 업로드 과정을 추가

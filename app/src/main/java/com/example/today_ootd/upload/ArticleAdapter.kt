@@ -18,7 +18,8 @@ class ArticleAdapter: ListAdapter<ArticleModel, ArticleAdapter.ViewHolder>(diffU
             val date = Date(articleModel.createdAt)
 
             binding.titleTextView.text = articleModel.nickname
-            binding.dateTextView.text = format.format(date).toString()
+            //binding.dateTextView.text = format.format(date).toString()
+            binding.dateTextView.text = articleModel.style
             binding.priceTextView.text = articleModel.whether
             if(articleModel.imageUrl.isNotEmpty()){
                 Glide.with(binding.thumbnailImageView)
