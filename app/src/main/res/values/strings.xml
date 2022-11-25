@@ -48,7 +48,7 @@
 
     <!-- Toolbar -->
     <string name="back">Back</string>
-    <string name="ootd">오늘 뭐\n입지?</string>
+    <string name="ootd">오늘\n머 입지?</string>
 
     <!-- etc -->
     <item name="visible" type="id" />
