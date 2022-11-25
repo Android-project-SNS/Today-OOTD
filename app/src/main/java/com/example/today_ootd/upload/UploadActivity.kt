@@ -51,7 +51,7 @@ class UploadActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener {
         Firebase.database.reference.child("OOTD")
     }
     private val userDB:DatabaseReference by lazy{
-        Firebase.database.reference.child("user").child("nickname")
+        Firebase.database.reference.child("user")
     }
     private var currentUid : String? = auth!!.currentUser!!.uid
     private var nickname : String = "왜안들어와"
