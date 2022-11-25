@@ -24,10 +24,10 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         // url 변수 지정
-        buildConfigField "String", "URL_WEATHER", properties['URL_WEATHER']
+        buildConfigField "String", "URL_WEATHER", '"http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/"'
 
         // api key 변수 지정
-        buildConfigField "String", "API_KEY", properties['API_KEY']
+        buildConfigField "String", "API_KEY", '"dVjuZuvMXMSKqJcCl%2Bxy%2Fk4Uy3arMVqaZdk7AFNvfljLJFD3z5NiFslDpsXgp7jQ5fCvq1lGN1RUWpcdmLuL7w%3D%3D"'
     }
     buildFeatures
             {

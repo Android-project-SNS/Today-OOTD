@@ -8,7 +8,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.today_ootd.R
 import com.example.today_ootd.model.WeatherModel
-import com.google.firebase.firestore.core.View
 
 
 class WeatherAdapter(var items : Array<WeatherModel>) : RecyclerView.Adapter<WeatherAdapter.ViewHolder>(){
@@ -28,7 +27,7 @@ class WeatherAdapter(var items : Array<WeatherModel>) : RecyclerView.Adapter<Wea
     override fun getItemCount() = items.count()
 
     // 뷰 홀더 설정
-    inner class ViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: android.view.View) : RecyclerView.ViewHolder(itemView) {
         @SuppressLint("SetTextI18n")
         fun setItem(item : WeatherModel) {
             val imgWeather = itemView.findViewById<ImageView>(R.id.imgWeather)  // 날씨 이미지
