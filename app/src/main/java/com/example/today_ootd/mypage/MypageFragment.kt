@@ -35,6 +35,8 @@ class MypageFragment : Fragment(R.layout.fragment_mypage) {
     private var binding: FragmentMypageBinding? = null
     private val mypageAdapter = MypageAdapter()
     private val articleList = mutableListOf<ArticleModel>()
+    private lateinit var followModel : FollowModel
+
     private val listener = object: ChildEventListener {
         override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
 
@@ -99,13 +101,9 @@ class MypageFragment : Fragment(R.layout.fragment_mypage) {
 
     fun getFollowerFollowingCount() {
         firestore.collection("users").document(currentUid!!).addSnapshotListener { value, error ->
-            if (value == null) {
-                binding!!.accountFollowerTextview.text = "0"
-                binding!!.accountFollowingTextview.text = "0"
-                return@addSnapshotListener
-            }
-            else {
-                val followModel = value.toObject(FollowModel::class.java)!!
+            if (value == null) return@addSnapshotListener
+            if (value.toObject(FollowModel::class.java) != null) {
+                followModel = value.toObject(FollowModel::class.java)!!
                 binding!!.accountFollowerTextview.text = followModel?.followerCount.toString()
                 binding!!.accountFollowingTextview.text = followModel?.followingCount.toString()
             }
