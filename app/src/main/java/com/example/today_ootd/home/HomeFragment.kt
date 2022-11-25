@@ -59,24 +59,23 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         storage = Firebase.storage
         val storageRef = storage.reference // reference to root
 
-        //fragmentHomeBinding.itemRecyclerView.layoutManager = LinearLayoutManager(context)
-        //fragmentHomeBinding.itemRecyclerView.adapter = articleAdapter
-        val imageRef1 = storage.getReferenceFromUrl("gs://today-ootd-d2187.appspot.com/OOTD/photo/OOTD/photo/1669030395002.png")
-        //displayImageRef(imageRef1, itemArticleBidning.thumbnailImageView)
-
-//        articleAdapter.submitList(mutableListOf<ArticleModel>().apply {
-//            add(ArticleModel("1","맥북 프로16인치","","","","","",0,"",imageRef1.toString()))
-//        })
         articleList.clear()
         articleDB = Firebase.database.reference.child("OOTD")
-        articleDB.addChildEventListener(mChildListener)
+        //articleDB.addChildEventListener(mChildListener)
         Log.d(TAG,"after addChildEventListener! now size : ${articleList.size}")
 
         articleDB.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 articleList.clear()
+                snapshot.children.forEach {
+                    val model = it.getValue(ArticleModel::class.java)
+                    model ?: return
+                    articleList.add(model)
+                }
                 Log.d(TAG,"addListenerForSingleValueEvent is Called!!")
-                articleDB.addChildEventListener(mChildListener)
+                //articleDB.addChildEventListener(mChildListener)
+                articleAdapter.submitList(articleList)
+                articleAdapter.notifyDataSetChanged()
             }
             override fun onCancelled(error: DatabaseError) {}
         })
@@ -87,31 +86,27 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
 
-    private fun displayImageRef(imageRef: StorageReference?, view: ImageView) {
-        imageRef?.getBytes(Long.MAX_VALUE)?.addOnSuccessListener {
-            val bmp = BitmapFactory.decodeByteArray(it, 0, it.size)
-            view.setImageBitmap(bmp)
-        }?.addOnFailureListener {
-            // Failed to download the image
-        }
-    }
+//    private val mChildListener = object : ChildEventListener {
+//        override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+//            // DB에 article이 추가될때마다 동작하는 리스너
+//            // article 자체를 객체를 통해서 주고받음
+//            val articleModel = snapshot.getValue(ArticleModel::class.java)
+//            Log.d(TAG,"addChildEventListener is Called!! now size : ${articleList.size}")
+//            articleModel ?: return // null시 반환
+//            articleList.add(articleModel)
+//            articleAdapter.submitList(articleList)
+//            articleAdapter.notifyDataSetChanged() // 추가
+//        }
+//
+//        override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}
+//        override fun onChildRemoved(snapshot: DataSnapshot) {}
+//        override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
+//        override fun onCancelled(error: DatabaseError) {}
+//
+//    }
+override fun onResume() {
+    super.onResume()
 
-    private val mChildListener = object : ChildEventListener {
-        override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-            // DB에 article이 추가될때마다 동작하는 리스너
-            // article 자체를 객체를 통해서 주고받음
-            val articleModel = snapshot.getValue(ArticleModel::class.java)
-            Log.d(TAG,"addChildEventListener is Called!! now size : ${articleList.size}")
-            articleModel ?: return // null시 반환
-            articleList.add(articleModel)
-            articleAdapter.submitList(articleList)
-            articleAdapter.notifyDataSetChanged() // 추가
-        }
-
-        override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}
-        override fun onChildRemoved(snapshot: DataSnapshot) {}
-        override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
-        override fun onCancelled(error: DatabaseError) {}
-
-    }
+    articleAdapter.notifyDataSetChanged()
+}
 }
