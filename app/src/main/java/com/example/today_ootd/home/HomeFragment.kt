@@ -38,7 +38,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             val articleModel = snapshot.getValue(ArticleModel::class.java)
             articleModel ?: return
 
-            articleList.add(articleModel)
+            articleList.add(0,articleModel)
             articleAdapter.submitList(articleList)
 
         }
@@ -52,8 +52,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //val itemArticleBidning = ItemArticleBinding.bind(view)
-        //binding = itemArticleBidning
         val fragmentHomeBinding = FragmentHomeBinding.bind(view)
         binding = fragmentHomeBinding
         storage = Firebase.storage
@@ -82,9 +80,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         fragmentHomeBinding.itemRecyclerView.adapter = articleAdapter
         articleDB.addChildEventListener(listener)
 
-        val manager = LinearLayoutManager(context)
-        manager.reverseLayout = true
-        manager.stackFromEnd = true
+
 
 
 
