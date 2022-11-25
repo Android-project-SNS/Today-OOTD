@@ -29,6 +29,7 @@ class MypageFragment : Fragment(R.layout.fragment_mypage) {
     var auth : FirebaseAuth? = null
     val db = Firebase.database
     val userRef = db.getReference("user") // user 정보 레퍼런스
+    val postRef = db.getReference("OOTD") // post 정보 레퍼런스
     lateinit var storage: FirebaseStorage
     //private var binding: ItemArticleBinding? = null
     private lateinit var articleDB: DatabaseReference
@@ -94,6 +95,8 @@ class MypageFragment : Fragment(R.layout.fragment_mypage) {
 
         // 팔로워 수 팔로잉 수 표시
         getFollowerFollowingCount()
+        // 게시물 개수 표시
+        getPostCount()
 
         // Inflate the layout for this fragment
         return binding!!.root
@@ -108,5 +111,28 @@ class MypageFragment : Fragment(R.layout.fragment_mypage) {
                 binding!!.accountFollowingTextview.text = followModel?.followingCount.toString()
             }
         }
+    }
+
+    fun getPostCount() {
+        postRef.addValueEventListener(object : ValueEventListener{
+            var postCount = 0
+            val uids = mutableListOf<String>()
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (child in snapshot.children){
+                    val map = child.value as Map<*, *>
+                    uids.add(map["sellerId"].toString())
+                }
+                for (d in uids){
+                    if (d == currentUid!!)
+                        postCount++
+                }
+                binding!!.accountPostTextview.text = postCount.toString()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+        })
     }
 }
