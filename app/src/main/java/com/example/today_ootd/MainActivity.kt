@@ -13,6 +13,7 @@ import com.example.today_ootd.search.SearchFragment
 import com.example.today_ootd.upload.UploadActivity
 
 class MainActivity : AppCompatActivity() {
+    val homeFragment = HomeFragment()
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,11 +21,12 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val homeFragment = HomeFragment()
+        //val homeFragment = HomeFragment()
         val favoriteFragment = FavoriteFragment()
         val myPageFragment = MypageFragment()
         val searchFragment = SearchFragment()
         val intent = Intent(this, UploadActivity::class.java)
+
 
         //로그인 시에만 업로드 가능하게 하고싶은 경오
 //        context?.let {
@@ -47,6 +49,12 @@ class MainActivity : AppCompatActivity() {
             }
             return@setOnItemSelectedListener true
         }
+    }
+
+    override fun onStart() {
+        //val homeFragment = HomeFragment()
+        super.onStart()
+        replaceFragment(homeFragment)
     }
     private fun replaceFragment(fragment : Fragment) {
         Log.d("MainActivity","${fragment}")

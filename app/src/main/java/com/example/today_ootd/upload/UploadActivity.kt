@@ -19,8 +19,10 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.*
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import com.example.today_ootd.R
 import com.example.today_ootd.databinding.ActivityUploadBinding
+import com.example.today_ootd.home.HomeFragment
 import com.example.today_ootd.model.ArticleModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -38,6 +40,7 @@ import com.google.firebase.storage.ktx.storage
 
 class UploadActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener {
     lateinit var binding: ActivityUploadBinding
+    val homeFragment = HomeFragment()
     val db : FirebaseFirestore = Firebase.firestore
     val itemsCollectionRef = db.collection("OOTD")
     private var selectedUri: Uri? = null
@@ -137,9 +140,18 @@ class UploadActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener {
             } else {
                 uploadArticle(sellerId, outer,top,bottom,shoes,bag,acc,weather, "", nickname, style,height)
             }
+            //replaceFragment(homeFragment)
         }
     }
 
+    private fun replaceFragment(fragment : Fragment) {
+        Log.d("MainActivity","${fragment}")
+        supportFragmentManager.beginTransaction()
+            .apply {
+                replace(R.id.fragmentCotainer,fragment)
+                commit()
+            }
+    }
     override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
         // An item was selected. You can retrieve the selected item using
         // parent.getItemAtPosition(pos)
