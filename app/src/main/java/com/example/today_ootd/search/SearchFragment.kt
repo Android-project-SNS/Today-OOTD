@@ -119,7 +119,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             }
             // 팔로우 하고 있지 않다면 (팔로우)
             else{
-                followModel!!.followingCount = followModel!!.followerCount + 1
+                followModel!!.followingCount = followModel!!.followingCount + 1
                 followModel?.following?.set(targetUid!!, true)
             }
             transaction.set(tsDocFollowing, followModel)
