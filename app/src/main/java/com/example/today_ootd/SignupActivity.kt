@@ -51,7 +51,13 @@ class SignupActivity : AppCompatActivity() {
 
         // 회원가입 완료
         submit.setOnClickListener{
-            isValidNickname()
+            val nickname = binding.signNickName.text.toString()
+            if (nickname.length > 10){
+                binding.nicknameError.text = "닉네임은 최대 10자 까지 가능합니다."
+            }
+            else {
+                isValidNickname()
+            }
         }
     }
     fun signUp(){

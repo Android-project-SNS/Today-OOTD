@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.today_ootd.R
@@ -78,7 +79,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                     recyclerView.layoutManager = LinearLayoutManager(context)
                 }
                 else {
-                    println("Not exists")
+                    Toast.makeText(activity, "존재하지 않는 유저입니다.", Toast.LENGTH_LONG).show()
                 }
             }
 
@@ -141,6 +142,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 // 팔로우 하고 있는 경우
                 followModel!!.followerCount = followModel!!.followerCount - 1
                 followModel!!.followers.remove(currentUid)
+
             }
             else {
                 // 팔로우 하고 있지 않은 경우
@@ -156,6 +158,14 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         inner class UserViewHolder(private val binding: ItemSearchBinding) : RecyclerView.ViewHolder(binding.root){
             fun searchResult(){
                 binding.name.text = name
+                firestore.collection("users").document(currentUid!!).addSnapshotListener { value, error ->
+                    if (value == null) return@addSnapshotListener
+                    if (value.toObject(FollowModel::class.java) != null) {
+                        val followModel = value.toObject(FollowModel::class.java)!!
+                        if (followModel.following?.containsKey(targetUid!!) == true)
+                            binding.followBtn.text = "팔로우 취소"
+                    }
+                }
                 // 팔로우 or 언팔로우
                 binding.followBtn.setOnClickListener {
                     requestFollow()
