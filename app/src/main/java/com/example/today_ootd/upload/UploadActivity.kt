@@ -109,6 +109,7 @@ class UploadActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener {
             userDB.child(currentUid!!).addValueEventListener(object : ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
                     nickname = snapshot.child("nickname").value.toString()
+                    height = snapshot.child("height").value.toString().toInt()
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -126,7 +127,7 @@ class UploadActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener {
                 val photoUri = selectedUri ?: return@setOnClickListener
                 uploadPhoto(photoUri,
                     successHandler = { uri ->
-                        uploadArticle(sellerId, outer,top,bottom,shoes,bag,acc,weather,uri,nickname,style)
+                        uploadArticle(sellerId, outer,top,bottom,shoes,bag,acc,weather,uri,nickname,style,height)
                     },
                     errorHandler = {
                         Toast.makeText(this, "사진 업로드에 실패했습니다.", Toast.LENGTH_SHORT).show()
@@ -134,7 +135,7 @@ class UploadActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener {
                     }
                 )
             } else {
-                uploadArticle(sellerId, outer,top,bottom,shoes,bag,acc,weather, "", nickname, style)
+                uploadArticle(sellerId, outer,top,bottom,shoes,bag,acc,weather, "", nickname, style,height)
             }
         }
     }
@@ -169,8 +170,8 @@ class UploadActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener {
     }
 
     //DB에 글 업로드 함수
-    private fun uploadArticle(sellerId: String, outer: String,top:String,bottom:String,shoes:String,bag:String,acc:String,weather: String, imageUrl: String, nickname: String, style:String) {
-        val model = ArticleModel(sellerId,outer, top, bottom, shoes, bag, acc, System.currentTimeMillis(),"$weather ℃", imageUrl,nickname,style)
+    private fun uploadArticle(sellerId: String, outer: String,top:String,bottom:String,shoes:String,bag:String,acc:String,weather: String, imageUrl: String, nickname: String, style:String, height:Int) {
+        val model = ArticleModel(sellerId,outer, top, bottom, shoes, bag, acc, System.currentTimeMillis(),"$weather ℃", imageUrl,nickname,style,height)
         articleDB.push().setValue(model)
 
         hideProgress()

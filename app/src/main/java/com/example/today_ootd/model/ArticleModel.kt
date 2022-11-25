@@ -12,7 +12,8 @@ data class ArticleModel (
     val whether : String,
     val imageUrl : String,
     val nickname: String,
-    val style: String
+    val style: String,
+    val height: Int
 ){
-    constructor() : this("","","","","","","",0,"","","","")
+    constructor() : this("","","","","","","",0,"","","","",0)
 }
