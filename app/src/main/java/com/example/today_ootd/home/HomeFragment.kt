@@ -140,8 +140,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         // 날씨 정보 가져오기
         // (한 페이지 결과 수 = 60, 페이지 번호 = 1, 응답 자료 형식-"JSON", 발표 날싸, 발표 시각, 예보지점 좌표)
-        //val call = WeatherObject.getRetrofitService().getWeather(60, 1, "JSON", "20221125", "0500", nx, ny)
-        val call = WeatherObject.getRetrofitService().getWeather(60, 1, "JSON", baseDate, baseTime, nx, ny)
+        val call = WeatherObject.getRetrofitService().getWeather(60, 1, "JSON", "20221125", "0500", nx, ny)
+        //val call = WeatherObject.getRetrofitService().getWeather(60, 1, "JSON", baseDate, baseTime, nx, ny)
         System.out.println("2-1. baseDate: " + baseDate + " baseTime: " + baseTime + " nx:" + nx + " ny: " + ny)
         System.out.println("3. call" + call)
 
@@ -192,6 +192,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         System.out.println("sky: " +sky)
         System.out.println("temp: " +temp)
         binding?.imgWeather?.setImageResource(weatherAdapter.getRainImage(rainType, sky))
+        binding?.tvMent?.text = weatherAdapter.getWeatherMent(temp)
         binding?.tvTemp?.text = temp + "° "
         binding?.tvHumidity?.text = humidity + "% "
 

@@ -33,5 +33,20 @@ class WeatherAdapter() {
         }
     }
 
+    fun getWeatherMent(temp : String) : String {
+        val tempInt = temp.toInt()
+        // 날씨에 따라 멘트
+        return when(tempInt) {
+            in -5..4 -> "패딩 입어야할 날씨!!"
+            in 5..9 -> "아우터를 안입으면 추운 날씨에요 :)"
+            in 10..14 -> "겉옷 챙겨요~"
+            in 15..19 -> "시원한 날씨네요 ^ 0^"
+            in 20..24 -> "오늘 날씨 완전 최고!!"
+            in 25..30 -> "오늘 덥다.."
+
+            else -> "이상한 날씨네요"   // 오류
+        }
+    }
+
 }
 
