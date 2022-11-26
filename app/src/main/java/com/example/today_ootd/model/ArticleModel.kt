@@ -2,10 +2,18 @@ package com.example.today_ootd.model
 
 data class ArticleModel (
     val sellerId : String,
-    val title : String,
+    val outer : String,
+    val top : String,
+    val bottom: String,
+    val shoes: String,
+    val bag: String,
+    val acc: String,
     val createdAt : Long,
     val whether : String,
-    val imageUrl : String
+    val imageUrl : String,
+    val nickname: String,
+    val style: String,
+    val height: Int
 ){
-    constructor() : this("","",0,"","")
+    constructor() : this("","","","","","","",0,"","","","",0)
 }

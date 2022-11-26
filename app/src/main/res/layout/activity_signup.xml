@@ -26,7 +26,7 @@
                 android:layout_marginBottom="20dp"
                 android:textAlignment="center"
                 android:text="회원 가입"
-                android:textColor="@color/teal_200"
+                android:textColor="#6799FF"
                 android:textSize="25dp" />
         </FrameLayout>
 
@@ -37,10 +37,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="30dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginRight="30dp"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/signIDtext"
@@ -48,7 +48,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:text="이메일"
-                    android:textColor="@color/teal_200"
+                    android:textColor="#6799FF"
                     android:textSize="20dp"
                     android:textStyle="bold" />
 
@@ -59,6 +59,7 @@
                     android:layout_marginBottom="20dp"
                     android:ems="10"
                     android:hint="이메일"
+                    android:background="@drawable/round_border"
                     android:inputType="textPersonName"
                     android:text="" />
 
@@ -68,7 +69,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:text="비밀번호"
-                    android:textColor="@color/teal_200"
+                    android:textColor="#6799FF"
                     android:textSize="20dp"
                     android:textStyle="bold" />
 
@@ -79,6 +80,7 @@
                     android:layout_marginBottom="20dp"
                     android:ems="10"
                     android:hint="비밀번호"
+                    android:background="@drawable/round_border"
                     android:inputType="textPassword"
                     android:text="" />
 
@@ -88,7 +90,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:text="비밀번호 확인"
-                    android:textColor="@color/teal_200"
+                    android:textColor="#6799FF"
                     android:textSize="20dp"
                     android:textStyle="bold" />
 
@@ -104,6 +106,7 @@
                         android:layout_marginBottom="20dp"
                         android:ems="10"
                         android:hint="비밀번호 다시 입력"
+                        android:background="@drawable/round_border"
                         android:inputType="textPassword"
                         android:text="" />
 
@@ -112,9 +115,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
                         android:layout_marginLeft="10dp"
+                        android:background="#6799FF"
                         android:text="확인"
                         android:textColor="@color/white"
-                        android:background="@color/teal_200"
                         android:textSize="16sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -125,10 +128,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:text="이름"
-                    android:textColor="@color/teal_200"
+                    android:textColor="#6799FF"
                     android:textSize="20dp"
-                    android:textStyle="bold"
-                    />
+                    android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/signName"
@@ -137,6 +139,7 @@
                     android:layout_marginBottom="20dp"
                     android:ems="10"
                     android:hint="이름"
+                    android:background="@drawable/round_border"
                     android:inputType="textPersonName"
                     android:text="" />
 
@@ -146,7 +149,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:text="닉네임"
-                    android:textColor="@color/teal_200"
+                    android:textColor="#6799FF"
                     android:textSize="20dp"
                     android:textStyle="bold" />
 
@@ -157,6 +160,7 @@
                     android:layout_marginBottom="20dp"
                     android:ems="10"
                     android:hint="닉네임"
+                    android:background="@drawable/round_border"
                     android:inputType="textPersonName"
                     android:text="" />
 
@@ -167,6 +171,7 @@
                     android:layout_marginTop="-20dp"
                     android:layout_marginBottom="5dp"
                     android:text=""
+                    android:hint="최대 10자"
                     android:textColor="#FF0000"
                     android:textSize="15dp"
                     android:textStyle="bold" />
@@ -177,7 +182,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:text="키"
-                    android:textColor="@color/teal_200"
+                    android:textColor="#6799FF"
                     android:textSize="20dp"
                     android:textStyle="bold" />
 
@@ -188,6 +193,7 @@
                     android:layout_marginBottom="20dp"
                     android:ems="10"
                     android:hint="키"
+                    android:background="@drawable/round_border"
                     android:inputType="number"
                     android:text="" />
 
@@ -195,11 +201,11 @@
                     android:id="@+id/submitButton"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:layout_marginTop="20dp"
                     android:layout_gravity="center"
-                    android:text="회원가입"
+                    android:layout_marginTop="20dp"
+                    android:background="#6799FF"
                     android:enabled="false"
-                    android:background="@color/teal_200"
+                    android:text="회원가입"
                     android:textColor="@color/white"
                     android:textSize="16sp"
                     android:textStyle="bold" />

@@ -19,7 +19,7 @@
 
     <!-- Bottom Navigation View -->
     <string name="menu_title_home">home</string>
-    <string name="menu_title_upload">upload</string>
+    <string name="menu_title_upload">오머~?</string>
     <string name="menu_title_favorite">찜</string>
     <string name="menu_title_mypage">mypage</string>
 
@@ -48,11 +48,33 @@
 
     <!-- Toolbar -->
     <string name="back">Back</string>
-    <string name="ootd">오늘 뭐\n입지?</string>
+    <string name="ootd">오늘\n머 입지?</string>
 
     <!-- etc -->
     <item name="visible" type="id" />
     <item name="masked" type="id" />
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="input_brand">브랜드명을 입력해주세요</string>
+    <string name="today_weather">오늘 날씨</string>
+    <string name="today_style">오늘 스타일</string>
+    <string name="today_info">오늘 정보</string>
+    <string name="outer">아우터</string>
+    <string name="top">상의</string>
+    <string name="bottom">바지/치마</string>
+    <string name="shoes">신발</string>
+    <string name="bag">가방</string>
+    <string name="today_picture">오늘 사진</string>
+    <string name="input_friend_name">검색할 친구 닉네임을 입력해주세요</string>
+
+    <string-array name="planets_array">
+        <item>스트릿</item>
+        <item>아메카지</item>
+        <item>캐주얼</item>
+        <item>댄디</item>
+        <item>걸리시</item>
+        <item>Saturn</item>
+        <item>Uranus</item>
+        <item>Neptune</item>
+    </string-array>
 </resources>

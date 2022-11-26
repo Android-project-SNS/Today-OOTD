@@ -1,43 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".LoginActivity"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <TextView
         android:id="@+id/logo_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true">
-        <!--    <ImageView-->
-        <!--        android:layout_width="match_parent"-->
-        <!--        android:layout_height="wrap_content"-->
-        <!--        android:layout_gravity="center"-->
-        <!--        android:layout_marginBottom="50dp"-->
-        <!--        android:layout_marginEnd="20dp"-->
-        <!--        android:layout_marginStart="20dp"-->
-        <!--        android:layout_marginTop="50dp"-->
-        <!--        android:contentDescription="@string/app_name"-->
-        <!--        android:src="@drawable/logo_title" />-->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="100dp"
-            android:text="@string/ootd"
-            android:textAlignment="center"
-            android:gravity="center"
-            android:textColor="@color/teal_200"
-            android:textSize="80dp">
-        </TextView>
-    </LinearLayout>
+        android:gravity="center"
+        android:text="@string/ootd"
+        android:textAlignment="center"
+        android:textColor="#6799FF"
+        android:textSize="80dp"></TextView>
+
     <LinearLayout
         android:id="@+id/signin_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/logo_layout"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_margin="50dp">
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -67,17 +53,18 @@
                 tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <android.widget.Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/signInButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="15dp"
             android:layout_marginRight="20dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="10dp"
+            android:background="#6799FF"
             android:text="@string/signin_email" />
 
-        <android.widget.Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/signupButton"
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -85,6 +72,7 @@
             android:layout_marginTop="0dp"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="20dp"
+            android:background="@color/white"
             android:text="@string/signup"
             tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck,TouchTargetSizeCheck" />
     </LinearLayout>
@@ -119,4 +107,4 @@
     </LinearLayout>
 
 
-</RelativeLayout>
+</LinearLayout>

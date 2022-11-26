@@ -56,10 +56,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         binding = fragmentHomeBinding
         storage = Firebase.storage
         val storageRef = storage.reference // reference to root
-
         articleList.clear()
         articleDB = Firebase.database.reference.child("OOTD")
         Log.d(TAG,"after addChildEventListener! now size : ${articleList.size}")
+
 
         articleDB.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -80,15 +80,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         fragmentHomeBinding.itemRecyclerView.adapter = articleAdapter
         articleDB.addChildEventListener(listener)
 
-
-
-
-
-
     }
 
 
-    //    private val mChildListener = object : ChildEventListener {
+//    private val mChildListener = object : ChildEventListener {
 //        override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
 //            // DB에 article이 추가될때마다 동작하는 리스너
 //            // article 자체를 객체를 통해서 주고받음
@@ -106,9 +101,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 //        override fun onCancelled(error: DatabaseError) {}
 //
 //    }
-    override fun onResume() {
-        super.onResume()
+override fun onResume() {
+    super.onResume()
 
-        articleAdapter.notifyDataSetChanged()
-    }
+    articleAdapter.notifyDataSetChanged()
+}
 }

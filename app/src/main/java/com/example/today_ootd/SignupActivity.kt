@@ -1,11 +1,13 @@
 package com.example.today_ootd
 
+import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.example.today_ootd.databinding.ActivitySignupBinding
 import com.example.today_ootd.databinding.ActivityUploadBinding
 import com.example.today_ootd.model.UserModel
@@ -49,7 +51,13 @@ class SignupActivity : AppCompatActivity() {
 
         // 회원가입 완료
         submit.setOnClickListener{
-            isValidNickname()
+            val nickname = binding.signNickName.text.toString()
+            if (nickname.length > 10){
+                binding.nicknameError.text = "닉네임은 최대 10자 까지 가능합니다."
+            }
+            else {
+                isValidNickname()
+            }
         }
     }
     fun signUp(){
@@ -81,9 +89,10 @@ class SignupActivity : AppCompatActivity() {
 
     // 유저 정보 기입 (이름, 닉네임, 키)
     private fun addInformation() {
-        val name = findViewById<EditText>(R.id.signName).text.toString()
-        val nickname = findViewById<EditText>(R.id.signNickName).text.toString()
-        val height = Integer.parseInt(findViewById<EditText>(R.id.signHeight).text.toString())
+        val id = binding.signID.text.toString()
+        val name = binding.signName.text.toString()
+        val nickname = binding.signNickName.text.toString()
+        val height = Integer.parseInt(binding.signHeight.text.toString())
 
 //        // 유저 정보 맵
 //        val userMap = hashMapOf(
@@ -91,7 +100,7 @@ class SignupActivity : AppCompatActivity() {
 //            "nickname" to nickname,
 //            "height" to height
 //        )
-        val userMap = UserModel(name, nickname, height)
+        val userMap = UserModel(id, name, nickname, height)
 
         // uid로 child 생성
         val currentUid = auth?.currentUser!!.uid
@@ -112,8 +121,14 @@ class SignupActivity : AppCompatActivity() {
                 }
 
                 if (nicknames.contains(nickname)){ // 닉네임이 중복되는 경우
-                    val nicknameError = binding.nicknameError
-                    nicknameError.text = "중복 닉네임"
+                    AlertDialog.Builder(this@SignupActivity)
+                        .setTitle("오류")
+                        .setMessage("중복 닉네임입니다.")
+                        .setPositiveButton("확인", DialogInterface.OnClickListener { dialog, id ->
+                            val nicknameError = binding.nicknameError
+                            nicknameError.text = "중복 닉네임"
+                        })
+                        .show()
                 }
                 else { // 닉네임이 중복되지 않는 경우
                     signUp()
