@@ -2,11 +2,13 @@ package com.example.today_ootd.mypage
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.today_ootd.LoginActivity
 import com.example.today_ootd.MainActivity
@@ -41,6 +43,11 @@ class MypageFragment : Fragment(R.layout.fragment_mypage) {
     private val articleList = mutableListOf<ArticleModel>()
     private lateinit var followModel : FollowModel
 
+    private val followerUid = mutableListOf<String>()
+    private val followingUid = mutableListOf<String>()
+    private val followerList = mutableListOf<String>()
+    private val followingList = mutableListOf<String>()
+
     private val listener = object: ChildEventListener {
         override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
 
@@ -60,10 +67,7 @@ class MypageFragment : Fragment(R.layout.fragment_mypage) {
         override fun onCancelled(error: DatabaseError) {}
     }
 
-//    override fun onAttach(context: Context) {
-//        super.onAttach(context)
-//        mainActivity = context as MainActivity
-//    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -77,6 +81,11 @@ class MypageFragment : Fragment(R.layout.fragment_mypage) {
         binding!!.accountRecyclerview.adapter = mypageAdapter
 
         currentUid = auth!!.currentUser!!.uid
+
+        followerUid.clear()
+        followingUid.clear()
+        followerList.clear()
+        followingList.clear()
 
         // 로그아웃
         val signoutBtn = binding!!.signoutBtn
@@ -104,22 +113,8 @@ class MypageFragment : Fragment(R.layout.fragment_mypage) {
         // 게시물 개수 표시
         getPostCount()
 
-        // 팔로워 목록, 팔로잉 목록
-        val showFollower = binding!!.accountFollowerTextview
-        val showFollowing = binding!!.accountFollowingTextview
+        getFollowerFollowing()
 
-        val showFriendFragment = ShowFriendFragment()
-
-        val mainActivity = context as MainActivity
-        showFollower.setOnClickListener {
-            //mainActivity.replaceFragment(showFriendFragment)
-            mainActivity.supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer, showFriendFragment)
-                .commit()
-        }
-        showFollowing.setOnClickListener {
-
-        }
         // Inflate the layout for this fragment
         return binding!!.root
 
@@ -129,18 +124,26 @@ class MypageFragment : Fragment(R.layout.fragment_mypage) {
 
     }
 
-    fun getFollowerFollowingCount() {
+    private fun getFollowerFollowingCount() {
         firestore.collection("users").document(currentUid!!).addSnapshotListener { value, error ->
             if (value == null) return@addSnapshotListener
             if (value.toObject(FollowModel::class.java) != null) {
                 followModel = value.toObject(FollowModel::class.java)!!
                 binding!!.accountFollowerTextview.text = followModel?.followerCount.toString()
                 binding!!.accountFollowingTextview.text = followModel?.followingCount.toString()
+
+                followModel?.followers?.forEach { (key, value) ->
+                    followerUid.add(key)
+                }
+
+                followModel?.following?.forEach { (key, value) ->
+                    followingUid.add(key)
+                }
             }
         }
     }
 
-    fun getPostCount() {
+    private fun getPostCount() {
         postRef.addValueEventListener(object : ValueEventListener{
             var postCount = 0
             val uids = mutableListOf<String>()
@@ -163,6 +166,41 @@ class MypageFragment : Fragment(R.layout.fragment_mypage) {
         })
     }
 
+    private fun getFollowerFollowing() {
+        userRef.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+//                val followerList = mutableListOf<String>()
+//                val followingList = mutableListOf<String>()
+                for (uid in followerUid) {
+                    followerList.add(snapshot.child(uid).child("nickname").value.toString())
+                }
+                for (uid in followingUid) {
+                    followingList.add(snapshot.child(uid).child("nickname").value.toString())
+                }
 
+                // 팔로워 목록, 팔로잉 목록
+                val showFollower = binding!!.accountFollowerTextview
+                val showFollowing = binding!!.accountFollowingTextview
 
+                val mainActivity = context as MainActivity
+
+                showFollower.setOnClickListener {
+                    val showFriendFragment = ShowFriendFragment(followerList)
+                    mainActivity.supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragmentContainer, showFriendFragment)
+                        .commit()
+                }
+                showFollowing.setOnClickListener {
+                    val showFriendFragment = ShowFriendFragment(followingList)
+                    mainActivity.supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragmentContainer, showFriendFragment)
+                        .commit()
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        })
+    }
 }

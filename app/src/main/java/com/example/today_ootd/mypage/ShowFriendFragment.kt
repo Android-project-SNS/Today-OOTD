@@ -20,28 +20,20 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 
-class ShowFriendFragment : Fragment(R.layout.fragment_show_friend) {
+class ShowFriendFragment(val friendList : MutableList<String>) : Fragment(R.layout.fragment_show_friend) {
     private var binding : FragmentShowFriendBinding? = null
-    private lateinit var firestore : FirebaseFirestore
-    private var currentUid : String? = null
-    var auth : FirebaseAuth? = null
-    val db = Firebase.database
-    val userRef = db.getReference("user") // user 정보 레퍼런스
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentShowFriendBinding.inflate(inflater, container, false)
-        auth = FirebaseAuth.getInstance()
-        firestore = Firebase.firestore
-        currentUid = auth!!.currentUser!!.uid
 
-        val list = mutableListOf("hi", "good", "fine")
         val recyclerView = binding!!.friendRecyclerView
-        val adapter = FriendListAdapter(list)
+        val adapter = FriendListAdapter(friendList)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(context)
+
         // Inflate the layout for this fragment
         return binding!!.root
     }
