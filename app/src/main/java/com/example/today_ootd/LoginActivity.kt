@@ -1,6 +1,7 @@
 package com.example.today_ootd
 
 
+import android.Manifest
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -9,6 +10,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import com.example.today_ootd.databinding.ActivityLoginBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -79,6 +81,7 @@ class LoginActivity : AppCompatActivity() {
     fun signUp(){
         val signupIntent = Intent(this, SignupActivity::class.java)
         startActivity(signupIntent)
+
     }
 
     fun signIn(){
@@ -93,6 +96,16 @@ class LoginActivity : AppCompatActivity() {
                     if(user != null) {
                         val intent = Intent(this, MainActivity::class.java)
                         startActivity(intent)
+
+                        // Get permission
+                        val permissionList = arrayOf<String>(
+                            // 위치 권한
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION,
+                        )
+
+                        // 권한 요청
+                        ActivityCompat.requestPermissions(this@LoginActivity, permissionList, 1)
                     }
                 }else{
                     Toast.makeText(this, "등록되지 않은 이메일 혹은 잘못된 비밀번호입니다.", Toast.LENGTH_LONG).show()

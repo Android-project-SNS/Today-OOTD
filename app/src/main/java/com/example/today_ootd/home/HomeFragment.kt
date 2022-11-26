@@ -56,10 +56,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         binding = fragmentHomeBinding
         storage = Firebase.storage
         val storageRef = storage.reference // reference to root
-
         articleList.clear()
         articleDB = Firebase.database.reference.child("OOTD")
         Log.d(TAG,"after addChildEventListener! now size : ${articleList.size}")
+
 
         articleDB.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -79,11 +79,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         fragmentHomeBinding.itemRecyclerView.layoutManager = LinearLayoutManager(context)
         fragmentHomeBinding.itemRecyclerView.adapter = articleAdapter
         articleDB.addChildEventListener(listener)
-
-
-
-
-
 
     }
 

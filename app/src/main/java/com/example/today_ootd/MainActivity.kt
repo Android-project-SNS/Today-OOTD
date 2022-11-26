@@ -1,9 +1,9 @@
 package com.example.today_ootd
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.today_ootd.databinding.ActivityMainBinding
 import com.example.today_ootd.favorite.FavoriteFragment
@@ -11,6 +11,8 @@ import com.example.today_ootd.home.HomeFragment
 import com.example.today_ootd.mypage.MypageFragment
 import com.example.today_ootd.search.SearchFragment
 import com.example.today_ootd.upload.UploadActivity
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 
 class MainActivity : AppCompatActivity() {
     val homeFragment = HomeFragment()
@@ -64,4 +66,11 @@ class MainActivity : AppCompatActivity() {
                 commit()
             }
     }
+
+    //HomeFragment에 weather location 전달
+    fun sendLocation(): FusedLocationProviderClient {
+        // 현재 위치의 날씨정보 설정하기
+        return LocationServices.getFusedLocationProviderClient(this@MainActivity)
+    }
+
 }
