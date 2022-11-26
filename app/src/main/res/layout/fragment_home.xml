@@ -1,93 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:context=".MainActivity"
+    android:layout_height="match_parent"
+    tools:context=".home.HomeFragment">
 
-    android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/tvError"
+    <androidx.recyclerview.widget.RecyclerView
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        android:id="@+id/itemRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="에러 : "
-        android:textSize="30dp"
-        android:textColor="@color/black"
-        android:layout_margin="10dp"
-        android:gravity="center"
-        android:visibility="gone" />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="@drawable/layout_background"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="10dp">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="@drawable/layout_background"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="10dp">
-
-        <ImageView
-            android:id="@+id/imgWeather"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_margin="10dp"
-            android:src="@drawable/sun" />
-
-
-        <TextView
-            android:id="@+id/tvTemp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="기온"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:src="@drawable/humidity" />
-
-            <TextView
-                android:id="@+id/tvHumidity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0%"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
-
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-        <ImageButton
-            android:id="@+id/btnRefresh"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="right"
-            android:src="@drawable/humidity" />
-
-    </LinearLayout>
-
-</LinearLayout>
-
-
-
+        android:layout_height="match_parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
