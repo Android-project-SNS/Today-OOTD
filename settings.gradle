@@ -14,4 +14,3 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Today-OOTD"
 include ':app'
-include ':myapplication'
