@@ -49,6 +49,10 @@ class MainActivity : AppCompatActivity() {
                 }
         }
 
+        binding!!.toolbarBtnBack?.setOnClickListener{
+            replaceFragment(homeFragment)
+        }
+
         binding!!.bottomNavigationView?.setOnItemSelectedListener { MenuItem ->
             when (MenuItem.itemId) {
                 R.id.home -> replaceFragment(homeFragment)

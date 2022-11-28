@@ -176,12 +176,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             baseDate = SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(cal.time)
         }
 
+        cal.add(Calendar.DATE, -1).toString() //하루 전
+        baseDate = SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(cal.time)
         System.out.println("2. baseDate: " + baseDate + " timeH: " + timeH + " timeM:" + timeM + " baseTime: " + baseTime)
 
         // 날씨 정보 가져오기
         // (한 페이지 결과 수 = 60, 페이지 번호 = 1, 응답 자료 형식-"JSON", 발표 날싸, 발표 시각, 예보지점 좌표)
-        val call = WeatherObject.getRetrofitService().getWeather(60, 1, "JSON", "20221128", "0500", nx, ny)
-        //val call = WeatherObject.getRetrofitService().getWeather(60, 1, "JSON", baseDate, baseTime, nx, ny)
+        //val call = WeatherObject.getRetrofitService().getWeather(60, 1, "JSON", "20221128", "0500", nx, ny)
+        val call = WeatherObject.getRetrofitService().getWeather(60, 1, "JSON", baseDate, "0500", nx, ny)
         System.out.println("2-1. baseDate: " + baseDate + " baseTime: " + baseTime + " nx:" + nx + " ny: " + ny)
         System.out.println("3. call" + call)
 
@@ -271,7 +273,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                             // 오늘 날짜 텍스트뷰 설정
                             // nx, ny지점의 날씨 가져와서 설정하기
                             //setWeather(curPoint!!.x, curPoint!!.y)
-                            setWeather(55, 127)
+                            //성북구 좌표
+                            setWeather(61, 127)
                         }
                     }
                 }
