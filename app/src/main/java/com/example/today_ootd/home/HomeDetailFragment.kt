@@ -24,7 +24,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 
 
-class HomeDetailFragment(data:ArticleModel) : Fragment(R.layout.fragment_home_detail) {
+class HomeDetailFragment() : Fragment(R.layout.fragment_home_detail) {
     lateinit var storage: FirebaseStorage
     private lateinit var articleDB: DatabaseReference
     private var binding: FragmentHomeDetailBinding? = null
