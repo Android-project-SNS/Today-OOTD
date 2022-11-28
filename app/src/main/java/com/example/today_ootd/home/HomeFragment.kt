@@ -144,7 +144,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     })
 
-
         //-------------------날씨 Setting
         weatherAdapter = WeatherAdapter() //초기화
 
@@ -154,8 +153,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         binding!!.btnRefresh.setOnClickListener {
             requestLocation()
         }
-
-
 
     }
 

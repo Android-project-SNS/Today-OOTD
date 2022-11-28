@@ -91,15 +91,15 @@
                         android:text="멘트"
                         android:textColor="@color/white"
                         android:textSize="18sp" />
-            </LinearLayout>
 
-            <Button
-                android:id="@+id/btnRefresh"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_gravity="right"
-                android:text="새로고침" />
+                </LinearLayout>
+                <ImageView
+                    android:id="@+id/btnRefresh"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="right"
+                    android:src="@drawable/retry_img" />
+
 
         </LinearLayout>
         </LinearLayout>

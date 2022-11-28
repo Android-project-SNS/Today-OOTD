@@ -74,8 +74,11 @@
         <item>캐주얼</item>
         <item>댄디</item>
         <item>걸리시</item>
-        <item>Saturn</item>
-        <item>Uranus</item>
-        <item>Neptune</item>
+        <item>하이틴</item>
+        <item>로맨틱</item>
+        <item>스포티</item>
+        <item>레트로</item>
+        <item>미니멀</item>
+        <item>락시크</item>
     </string-array>
 </resources>
