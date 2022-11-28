@@ -60,7 +60,7 @@ class ArticleAdapter: ListAdapter<ArticleModel, ArticleAdapter.ViewHolder>(diffU
                         articles.add(child.key.toString())
                     }
                     val size = articles.size - 1
-                    if (size - adapterPosition >= 0)
+                    if ((size - adapterPosition >= 0) && (size - adapterPosition < articles.size))
                         targetArticle = articles[size - adapterPosition]
 
                 }
