@@ -7,6 +7,7 @@ import android.graphics.Point
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
+import android.text.TextUtils.replace
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -24,6 +25,7 @@ import com.example.today_ootd.databinding.ItemArticleBinding
 import com.example.today_ootd.model.ArticleModel
 import com.example.today_ootd.model.ITEM
 import com.example.today_ootd.model.WEATHER
+import com.example.today_ootd.mypage.ShowFriendFragment
 import com.example.today_ootd.network.WeatherObject
 import com.example.today_ootd.upload.ArticleAdapter
 import com.google.android.gms.location.LocationCallback
@@ -56,24 +58,24 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private var curPoint : Point? = null    // 현재 위치의 격자 좌표를 저장할 포인트
     private lateinit var weatherAdapter: WeatherAdapter
 
-    private val listener = object: ChildEventListener {
-        override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-
-            val articleModel = snapshot.getValue(ArticleModel::class.java)
-            articleModel ?: return
-
-            articleList.add(0,articleModel)
-            articleAdapter.submitList(articleList)
-
-        }
-        override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}
-
-        override fun onChildRemoved(snapshot: DataSnapshot) {}
-
-        override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
-
-        override fun onCancelled(error: DatabaseError) {}
-    }
+//    private val listener = object: ChildEventListener {
+//        override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+//
+//            val articleModel = snapshot.getValue(ArticleModel::class.java)
+//            articleModel ?: return
+//
+//            articleList.add(0,articleModel)
+//            articleAdapter.submitList(articleList)
+//
+//        }
+//        override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}
+//
+//        override fun onChildRemoved(snapshot: DataSnapshot) {}
+//
+//        override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
+//
+//        override fun onCancelled(error: DatabaseError) {}
+//    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val fragmentHomeBinding = FragmentHomeBinding.bind(view)
@@ -104,6 +106,19 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         fragmentHomeBinding.itemRecyclerView.adapter = articleAdapter
         //articleDB.addChildEventListener(listener)
 
+    val mainActivity = context as MainActivity
+    articleAdapter.setOnItemClickListener(object :ArticleAdapter.OnItemClickListener{
+        override fun onItemClick(v: View, data: ArticleModel, pos : Int) {
+            Log.d("####################detail","###########detail")
+            System.out.println("#####detail")
+            val homeDetailFragment = HomeDetailFragment()
+            mainActivity.supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, homeDetailFragment)
+                .commit()
+        }
+    })
+
+
         //-------------------날씨 Setting
         weatherAdapter = WeatherAdapter() //초기화
 
@@ -115,7 +130,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
 
 
+
     }
+
 
     // 날씨 가져와서 설정하기
     @RequiresApi(Build.VERSION_CODES.N)
@@ -272,4 +289,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         articleAdapter.notifyDataSetChanged()
     }
+
+
 }
