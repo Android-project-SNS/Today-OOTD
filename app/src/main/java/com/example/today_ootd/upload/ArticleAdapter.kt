@@ -39,6 +39,7 @@ class ArticleAdapter: ListAdapter<ArticleModel, ArticleAdapter.ViewHolder>(diffU
     fun setOnItemClickListener(listener : OnItemClickListener) {
         this.listener = listener
     }
+
     inner class ViewHolder (private val binding: ItemArticleBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(articleModel: ArticleModel){
             val format = SimpleDateFormat("MM년dd일")

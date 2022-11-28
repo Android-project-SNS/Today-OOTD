@@ -111,7 +111,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         override fun onItemClick(v: View, data: ArticleModel, pos : Int) {
             Log.d("####################detail","###########detail")
             System.out.println("#####detail")
-            val homeDetailFragment = HomeDetailFragment()
+            val homeDetailFragment = HomeDetailFragment(data)
             mainActivity.supportFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, homeDetailFragment)
                 .commit()
