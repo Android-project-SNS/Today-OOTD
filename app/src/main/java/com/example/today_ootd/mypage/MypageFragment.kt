@@ -188,12 +188,14 @@ class MypageFragment : Fragment(R.layout.fragment_mypage) {
                     val showFriendFragment = ShowFriendFragment(followerList)
                     mainActivity.supportFragmentManager.beginTransaction()
                         .replace(R.id.fragmentContainer, showFriendFragment)
+                        .addToBackStack(null)
                         .commit()
                 }
                 showFollowing.setOnClickListener {
                     val showFriendFragment = ShowFriendFragment(followingList)
                     mainActivity.supportFragmentManager.beginTransaction()
                         .replace(R.id.fragmentContainer, showFriendFragment)
+                        .addToBackStack(null)
                         .commit()
                 }
             }

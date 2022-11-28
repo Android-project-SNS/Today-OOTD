@@ -7,15 +7,13 @@
     tools:context=".LoginActivity"
     android:orientation="vertical">
 
-    <TextView
+    <ImageView
         android:id="@+id/logo_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="227dp"
         android:gravity="center"
-        android:text="@string/ootd"
-        android:textAlignment="center"
-        android:textColor="#6799FF"
-        android:textSize="80dp"></TextView>
+        android:src="@drawable/logo_ohmae"
+        android:textAlignment="center"></ImageView>
 
     <LinearLayout
         android:id="@+id/signin_layout"
@@ -23,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/logo_layout"
         android:orientation="vertical"
-        android:layout_margin="50dp">
+        android:layout_margin="20dp">
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -36,6 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/email"
+                android:layout_marginBottom="5dp"
                 tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
@@ -60,9 +59,23 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="15dp"
             android:layout_marginRight="20dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="5dp"
             android:background="#6799FF"
-            android:text="@string/signin_email" />
+            android:text="@string/signin_email"
+            android:textSize="16sp"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/googleBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="#F5F5F5"
+            android:text="Google 계정으로 로그인"
+            android:textSize="16sp"
+            tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck,TouchTargetSizeCheck,TouchTargetSizeCheck" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/signupButton"
@@ -74,37 +87,8 @@
             android:layout_marginBottom="20dp"
             android:background="@color/white"
             android:text="@string/signup"
+            android:textSize="16sp"
             tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck,TouchTargetSizeCheck" />
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/signin_layout"
-        android:orientation="horizontal">
-
-        <android.widget.Button
-            android:id="@+id/facebookBtn"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginRight="20dp"
-
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/btn_signin_facebook"
-            tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck" />
-
-        <android.widget.Button
-            android:id="@+id/googleBtn"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginRight="100dp"
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/btn_signin_facebook"
-            tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck,TouchTargetSizeCheck,TouchTargetSizeCheck" />
-    </LinearLayout>
-
 
 </LinearLayout>

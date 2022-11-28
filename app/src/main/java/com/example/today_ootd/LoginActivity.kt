@@ -53,11 +53,6 @@ class LoginActivity : AppCompatActivity() {
             signIn()
         }
 
-        // 페이스북 로그인 버튼
-        val facebookLoginButton = binding.facebookBtn
-        facebookLoginButton.setOnClickListener {
-
-        }
 
         var gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
