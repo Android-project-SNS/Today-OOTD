@@ -10,37 +10,37 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="85dp"
         android:layout_alignParentTop="true"
         android:background="@color/skyblue"
         app:layout_constraintBottom_toTopOf="@+id/fragmentContainer"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/toolbar_btn_back"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ohmae"
+                android:layout_width="80dp"
+                android:layout_height="85dp"
                 android:layout_alignParentLeft="true"
-                android:layout_marginRight="22dp"
-                />
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/logo_ohmae" />
 
             <ImageView
                 android:id="@+id/toolbar_btn_search"
                 android:layout_width="35dp"
                 android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
-                android:layout_marginLeft="330dp"
+                android:layout_marginLeft="250dp"
                 android:layout_marginRight="22dp"
                 android:src="@drawable/ic_search" />
 
 
-        </RelativeLayout>
+        </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
 
     <FrameLayout
