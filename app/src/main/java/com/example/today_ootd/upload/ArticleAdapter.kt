@@ -1,5 +1,6 @@
 package com.example.today_ootd.upload
 
+import android.text.TextUtils.concat
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -39,7 +40,7 @@ class ArticleAdapter: ListAdapter<ArticleModel, ArticleAdapter.ViewHolder>(diffU
             //binding.dateTextView.text = format.format(date).toString()
             binding.dateTextView.text = articleModel.style
             binding.heightTextView.text = articleModel.whether
-            binding.priceTextView2.text = articleModel.height.toString()
+            binding.priceTextView2.text = concat(articleModel.height.toString(), "cm")
             binding.textView.text = articleModel.likeCount.toString()
 
             if(articleModel.imageUrl.isNotEmpty()){
