@@ -10,7 +10,7 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="85dp"
+        android:layout_height="75dp"
         android:layout_alignParentTop="true"
         android:background="@color/skyblue"
         app:layout_constraintBottom_toTopOf="@+id/fragmentContainer"
