@@ -14,7 +14,8 @@ data class ArticleModel (
     val nickname: String,
     val style: String,
     val height: Int,
-    var like : MutableMap<String, Boolean> = HashMap()
+    var like : MutableMap<String, Boolean> = HashMap(),
+    var likeCount : Int = 0
 ){
    constructor() : this("","","","","","","",0,"","","","",0)
 }

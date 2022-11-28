@@ -40,6 +40,8 @@ class ArticleAdapter: ListAdapter<ArticleModel, ArticleAdapter.ViewHolder>(diffU
             binding.dateTextView.text = articleModel.style
             binding.heightTextView.text = articleModel.whether
             binding.priceTextView2.text = articleModel.height.toString()
+            binding.textView.text = articleModel.likeCount.toString()
+
             if(articleModel.imageUrl.isNotEmpty()){
                 Glide.with(binding.thumbnailImageView)
                     .load(articleModel.imageUrl)
@@ -67,25 +69,36 @@ class ArticleAdapter: ListAdapter<ArticleModel, ArticleAdapter.ViewHolder>(diffU
                 }
             })
             val map = articleModel.like
-
+            var likeCount = articleModel.likeCount
             if (map.containsKey(currentUid)){
                 binding.imageView5.setImageResource(R.drawable.ic_favorite_click)
             }
             else {
                 binding.imageView5.setImageResource(R.drawable.ic_favoite_empty)
             }
+//            binding.textView.text = likeCount.toString()
             // 좋아요 기능
             binding.imageView5.setOnClickListener {
                 if (map.containsKey(currentUid!!)){
                     binding.imageView5.setImageResource(R.drawable.ic_favoite_empty)
                     map.remove(currentUid)
+                    likeCount--
                     articleDB.child(targetArticle).child("like").setValue(map)
+                    articleDB.child(targetArticle).child("likeCount").setValue(likeCount)
                 }
                 else {
                     binding.imageView5.setImageResource(R.drawable.ic_favorite_click)
                     map[currentUid!!] = true
+                    likeCount++
                     articleDB.child(targetArticle).child("like").setValue(map)
+                    articleDB.child(targetArticle).child("likeCount").setValue(likeCount)
                 }
+                binding.textView.text = likeCount.toString()
+            }
+        }
+        fun showDetail(articleModel: ArticleModel){
+            binding.thumbnailImageView.setOnClickListener{
+                println(articleModel.whether)
             }
         }
     }
@@ -97,6 +110,7 @@ class ArticleAdapter: ListAdapter<ArticleModel, ArticleAdapter.ViewHolder>(diffU
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(currentList[position])
         holder.setLike(currentList[position])
+        holder.showDetail(currentList[position])
     }
 
     companion object{
