@@ -13,7 +13,8 @@ data class ArticleModel (
     val imageUrl : String,
     val nickname: String,
     val style: String,
-    val height: Int
+    val height: Int,
+    var like : MutableMap<String, Boolean> = HashMap()
 ){
-    constructor() : this("","","","","","","",0,"","","","",0)
+   constructor() : this("","","","","","","",0,"","","","",0)
 }

@@ -1,60 +1,93 @@
 package com.example.today_ootd.favorite
 
+import android.content.ContentValues
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.today_ootd.R
+import com.example.today_ootd.databinding.FragmentFavoriteBinding
+import com.example.today_ootd.databinding.FragmentHomeBinding
+import com.example.today_ootd.model.ArticleModel
+import com.example.today_ootd.upload.ArticleAdapter
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.*
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.ktx.storage
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
+    lateinit var storage: FirebaseStorage
+    private val auth: FirebaseAuth by lazy {
+        Firebase.auth
+    }
+    //private var binding: ItemArticleBinding? = null
+    private lateinit var articleDB: DatabaseReference
+    private var binding: FragmentFavoriteBinding? = null
+    private val articleAdapter = ArticleAdapter()
+    private val articleList = mutableListOf<ArticleModel>()
+    private var currentUid : String? = auth!!.currentUser!!.uid
+    private val listener = object : ChildEventListener {
+        override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [FavoriteFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class FavoriteFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+            val articleModel = snapshot.getValue(ArticleModel::class.java)
+            articleModel ?: return
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            articleList.add(0, articleModel)
+            articleAdapter.submitList(articleList)
+
         }
+
+        override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}
+
+        override fun onChildRemoved(snapshot: DataSnapshot) {}
+
+        override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
+
+        override fun onCancelled(error: DatabaseError) {}
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favorite, container, false)
-    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val fragmentFavoriteBinding = FragmentFavoriteBinding.bind(view)
+        binding = fragmentFavoriteBinding
+        storage = Firebase.storage
+        val storageRef = storage.reference // reference to root
+        articleList.clear()
+        articleDB = Firebase.database.reference.child("OOTD")
+        Log.d(ContentValues.TAG, "after addChildEventListener! now size : ${articleList.size}")
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment FavoriteFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            FavoriteFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+
+        articleDB.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                articleList.clear()
+                snapshot.children.forEach {
+                    val model = it.getValue(ArticleModel::class.java)
+                    model ?: return
+                    if (model.like.containsKey(currentUid))
+                        articleList.add(0, model)
                 }
+                Log.d(ContentValues.TAG, "addListenerForSingleValueEvent is Called!!")
+                articleAdapter.submitList(articleList)
+                articleAdapter.notifyDataSetChanged()
             }
+
+            override fun onCancelled(error: DatabaseError) {}
+        })
+
+        fragmentFavoriteBinding.itemRecyclerView2.layoutManager = LinearLayoutManager(context)
+        fragmentFavoriteBinding.itemRecyclerView2.adapter = articleAdapter
+        //articleDB.addChildEventListener(listener)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        articleAdapter.notifyDataSetChanged()
     }
 }

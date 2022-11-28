@@ -183,7 +183,9 @@ class UploadActivity : AppCompatActivity(),AdapterView.OnItemSelectedListener {
 
     //DB에 글 업로드 함수
     private fun uploadArticle(sellerId: String, outer: String,top:String,bottom:String,shoes:String,bag:String,acc:String,weather: String, imageUrl: String, nickname: String, style:String, height:Int) {
-        val model = ArticleModel(sellerId,outer, top, bottom, shoes, bag, acc, System.currentTimeMillis(),"$weather ℃", imageUrl,nickname,style,height)
+        val like = mutableMapOf<String, Boolean>()
+        val model = ArticleModel(sellerId,outer, top, bottom, shoes, bag, acc, System.currentTimeMillis(),
+            "$weather ℃", imageUrl, nickname, style, height, like)
         articleDB.push().setValue(model)
 
         hideProgress()

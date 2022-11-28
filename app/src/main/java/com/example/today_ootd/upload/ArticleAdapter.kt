@@ -6,12 +6,30 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.today_ootd.R
 import com.example.today_ootd.databinding.ItemArticleBinding
 import com.example.today_ootd.model.ArticleModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import java.text.SimpleDateFormat
 import java.util.*
 
 class ArticleAdapter: ListAdapter<ArticleModel, ArticleAdapter.ViewHolder>(diffUtil){
+    private val articleDB: DatabaseReference by lazy{
+        Firebase.database.reference.child("OOTD")
+    }
+    private val auth: FirebaseAuth by lazy {
+        Firebase.auth
+    }
+
+    private var currentUid : String? = auth!!.currentUser!!.uid
+
     inner class ViewHolder (private val binding: ItemArticleBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(articleModel: ArticleModel){
             val format = SimpleDateFormat("MM년dd일")
@@ -28,6 +46,48 @@ class ArticleAdapter: ListAdapter<ArticleModel, ArticleAdapter.ViewHolder>(diffU
                     .into(binding.thumbnailImageView)
             }
         }
+
+        fun setLike(articleModel: ArticleModel){
+            var targetArticle = " "
+            articleDB.addListenerForSingleValueEvent(object : ValueEventListener{
+                var articles = mutableListOf<String>()
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    articles.clear()
+                    for (child in snapshot.children){
+                        articles.add(child.key.toString())
+                    }
+                    val size = articles.size - 1
+                    if (size - adapterPosition >= 0)
+                        targetArticle = articles[size - adapterPosition]
+
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+            })
+            val map = articleModel.like
+
+            if (map.containsKey(currentUid)){
+                binding.imageView5.setImageResource(R.drawable.ic_favorite_click)
+            }
+            else {
+                binding.imageView5.setImageResource(R.drawable.ic_favoite_empty)
+            }
+            // 좋아요 기능
+            binding.imageView5.setOnClickListener {
+                if (map.containsKey(currentUid!!)){
+                    binding.imageView5.setImageResource(R.drawable.ic_favoite_empty)
+                    map.remove(currentUid)
+                    articleDB.child(targetArticle).child("like").setValue(map)
+                }
+                else {
+                    binding.imageView5.setImageResource(R.drawable.ic_favorite_click)
+                    map[currentUid!!] = true
+                    articleDB.child(targetArticle).child("like").setValue(map)
+                }
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -36,6 +96,7 @@ class ArticleAdapter: ListAdapter<ArticleModel, ArticleAdapter.ViewHolder>(diffU
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(currentList[position])
+        holder.setLike(currentList[position])
     }
 
     companion object{
