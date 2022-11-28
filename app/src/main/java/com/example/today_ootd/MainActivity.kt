@@ -39,7 +39,12 @@ class MainActivity : AppCompatActivity() {
 //                    Snackbar.make(view, "로그인 후 사용해주세요", Snackbar.LENGTH_LONG).show()
 //                }
         binding!!.toolbarBtnSearch?.setOnClickListener {
-            replaceFragment(searchFragment)
+            supportFragmentManager.beginTransaction()
+                .apply{
+                    replace(R.id.fragmentContainer, searchFragment)
+                    addToBackStack(null)
+                    commit()
+                }
         }
 
         binding!!.bottomNavigationView?.setOnItemSelectedListener { MenuItem ->
@@ -72,5 +77,6 @@ class MainActivity : AppCompatActivity() {
         // 현재 위치의 날씨정보 설정하기
         return LocationServices.getFusedLocationProviderClient(this@MainActivity)
     }
+
 
 }

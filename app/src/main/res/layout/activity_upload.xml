@@ -24,7 +24,7 @@
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/my_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="75dp"
                 android:layout_alignParentTop="true"
                 android:background="@color/skyblue"
                 app:layout_constraintBottom_toTopOf="@+id/fragmentCotainer"
@@ -36,12 +36,12 @@
 
                     <ImageView
                         android:id="@+id/toolbar_btn_back"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_width="80dp"
+                        android:layout_height="85dp"
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="22dp"
-                        android:src="@drawable/ohmae" />
+                        android:layout_marginBottom="10dp"
+                        android:src="@drawable/logo_ohmae" />
                     
                 </RelativeLayout>
             </androidx.appcompat.widget.Toolbar>
@@ -289,6 +289,7 @@
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
                 android:background="#6799FF"
                 android:text="공유하기"
                 android:textColor="@color/white"

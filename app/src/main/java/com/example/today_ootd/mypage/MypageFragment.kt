@@ -1,14 +1,17 @@
 package com.example.today_ootd.mypage
 
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.today_ootd.LoginActivity
 import com.example.today_ootd.MainActivity
@@ -26,6 +29,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 import com.example.today_ootd.R
+import com.example.today_ootd.databinding.FragmentFavoriteBinding
 import com.google.firebase.firestore.ktx.toObject
 
 class MypageFragment : Fragment(R.layout.fragment_mypage) {
@@ -118,12 +122,45 @@ class MypageFragment : Fragment(R.layout.fragment_mypage) {
         // Inflate the layout for this fragment
         return binding!!.root
 
-        binding!!.accountRecyclerview.layoutManager = LinearLayoutManager(context)
-        binding!!.accountRecyclerview.adapter = mypageAdapter
-        articleDB.addChildEventListener(listener)
+    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val fragmentMypageBinding = FragmentMypageBinding.bind(view)
+        binding = fragmentMypageBinding
+        storage = Firebase.storage
+        val storageRef = storage.reference // reference to root
+        articleList.clear()
+        articleDB = Firebase.database.reference.child("OOTD")
+        Log.d(ContentValues.TAG, "after addChildEventListener! now size : ${articleList.size}")
 
+
+        articleDB.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                articleList.clear()
+                snapshot.children.forEach {
+                    val model = it.getValue(ArticleModel::class.java)
+                    model ?: return
+                    if (model.sellerId == currentUid)
+                        articleList.add(0, model)
+                }
+                Log.d(ContentValues.TAG, "addListenerForSingleValueEvent is Called!!")
+                mypageAdapter.submitList(articleList)
+                mypageAdapter.notifyDataSetChanged()
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+        })
+        binding!!.accountRecyclerview.layoutManager = GridLayoutManager(context, 3)
+        binding!!.accountRecyclerview.adapter = mypageAdapter
+
+        //articleDB.addChildEventListener(listener)
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        mypageAdapter.notifyDataSetChanged()
+    }
     private fun getFollowerFollowingCount() {
         firestore.collection("users").document(currentUid!!).addSnapshotListener { value, error ->
             if (value == null) return@addSnapshotListener
@@ -188,12 +225,14 @@ class MypageFragment : Fragment(R.layout.fragment_mypage) {
                     val showFriendFragment = ShowFriendFragment(followerList)
                     mainActivity.supportFragmentManager.beginTransaction()
                         .replace(R.id.fragmentContainer, showFriendFragment)
+                        .addToBackStack(null)
                         .commit()
                 }
                 showFollowing.setOnClickListener {
                     val showFriendFragment = ShowFriendFragment(followingList)
                     mainActivity.supportFragmentManager.beginTransaction()
                         .replace(R.id.fragmentContainer, showFriendFragment)
+                        .addToBackStack(null)
                         .commit()
                 }
             }
