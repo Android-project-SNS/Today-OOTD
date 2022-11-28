@@ -170,6 +170,8 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                         val followModel = value.toObject(FollowModel::class.java)!!
                         if (followModel.following?.containsKey(targetUid!!) == true)
                             binding.followBtn.text = "팔로우 취소"
+                        else
+                            binding.followBtn.text = "팔로우"
                     }
                 }
                 // 팔로우 or 언팔로우
