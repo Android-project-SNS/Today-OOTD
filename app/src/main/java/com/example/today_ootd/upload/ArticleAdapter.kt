@@ -113,11 +113,6 @@ class ArticleAdapter: ListAdapter<ArticleModel, ArticleAdapter.ViewHolder>(diffU
                 binding.textView.text = likeCount.toString()
             }
         }
-        fun showDetail(articleModel: ArticleModel){
-            binding.thumbnailImageView.setOnClickListener{
-                println(articleModel.whether)
-            }
-        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
