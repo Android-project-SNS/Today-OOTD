@@ -21,6 +21,7 @@ import com.example.today_ootd.R
 import com.example.today_ootd.adapter.WeatherAdapter
 import com.example.today_ootd.component.Common
 import com.example.today_ootd.databinding.FragmentHomeBinding
+import com.example.today_ootd.databinding.FragmentHomeDetailBinding
 import com.example.today_ootd.databinding.ItemArticleBinding
 import com.example.today_ootd.model.ArticleModel
 import com.example.today_ootd.model.ITEM
@@ -50,6 +51,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     //private var binding: ItemArticleBinding? = null
     private lateinit var articleDB: DatabaseReference
     private var binding: FragmentHomeBinding? = null
+    private var binding1: FragmentHomeDetailBinding? = null
     private val articleAdapter = ArticleAdapter()
     private val articleList = mutableListOf<ArticleModel>()
 
@@ -79,7 +81,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val fragmentHomeBinding = FragmentHomeBinding.bind(view)
+        //val fragmentHomeDetailBinding = FragmentHomeDetailBinding.bind(view)
         binding = fragmentHomeBinding
+        //binding1 = fragmentHomeDetailBinding
         storage = Firebase.storage
         val storageRef = storage.reference // reference to root
         articleList.clear()
@@ -106,14 +110,36 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         fragmentHomeBinding.itemRecyclerView.adapter = articleAdapter
         //articleDB.addChildEventListener(listener)
 
+
     val mainActivity = context as MainActivity
+
     articleAdapter.setOnItemClickListener(object :ArticleAdapter.OnItemClickListener{
         override fun onItemClick(v: View, data: ArticleModel, pos : Int) {
             Log.d("####################detail","###########detail")
             System.out.println("#####detail")
             val homeDetailFragment = HomeDetailFragment()
+
+
             mainActivity.supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer, homeDetailFragment)
+                .replace(R.id.fragmentContainer, homeDetailFragment.apply {
+                    arguments = Bundle().apply {
+                        //putString("key","value")
+                        putString("nickname",data.nickname)
+                        putString("weather",data.whether)
+                        putInt("height",data.height)
+                        putString("url",data.imageUrl)
+                        putString("style",data.style)
+                        putInt("like",data.likeCount)
+                        putString("outer",data.outer)
+                        putString("top",data.top)
+                        putString("bottom",data.bottom)
+                        putString("shoes",data.shoes)
+                        putString("bag",data.bag)
+                        putString("acc",data.acc)
+
+                    }
+                })
+                .addToBackStack(null)
                 .commit()
         }
     })

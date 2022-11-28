@@ -34,7 +34,7 @@
                 app:srcCompat="@drawable/ic_mypage" />
 
             <TextView
-                android:id="@+id/titleTextView"
+                android:id="@+id/nicknameTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -48,7 +48,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/dateTextView"
+                android:id="@+id/infoTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
@@ -56,15 +56,7 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/heightTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="price"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/priceTextView2"
+                android:id="@+id/styleTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -77,6 +69,7 @@
             android:id="@+id/thumbnailImageView"
             android:layout_width="match_parent"
             android:layout_height="350dp"
+            android:layout_marginTop="8dp"
             android:background="@drawable/round_border"
             android:scaleType="fitXY"
             app:srcCompat="@drawable/ic_launcher_background" />
@@ -267,7 +260,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_gravity="right"
-                    app:srcCompat="@drawable/ic_favoite_empty" />
+                    app:srcCompat="@drawable/ic_favorite" />
 
                 <TextView
                     android:id="@+id/textView"

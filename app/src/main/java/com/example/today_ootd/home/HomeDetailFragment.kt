@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.today_ootd.R
 import com.example.today_ootd.databinding.FragmentHomeBinding
 import com.example.today_ootd.databinding.FragmentHomeDetailBinding
@@ -31,6 +32,10 @@ class HomeDetailFragment() : Fragment(R.layout.fragment_home_detail) {
     private val detailAdapter = DetailAdapter()
 
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.getString("key")?.let { Log.d("########################", it) }
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val fragmentHomeDetailBinding = FragmentHomeDetailBinding.bind(view)
@@ -39,19 +44,31 @@ class HomeDetailFragment() : Fragment(R.layout.fragment_home_detail) {
         val storageRef = storage.reference // reference to root
         articleDB = Firebase.database.reference.child("OOTD")
 
-
-        articleDB.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                snapshot.children.forEach {
-                    val model = it.getValue(ArticleModel::class.java)
-                    model ?: return
-                }
-                Log.d(ContentValues.TAG, "addListenerForSingleValueEvent is Called!!")
-
-            }
-
-            override fun onCancelled(error: DatabaseError) {}
-        })
+        binding!!.myStyle.text = arguments?.getString("style")
+        binding!!.nicknameTextView.text = arguments?.getString("nickname")
+        binding!!.infoTextView.text = arguments?.getString("weather")+"/"+arguments?.getInt("height")+"cm"
+        Glide.with(binding!!.thumbnailImageView)
+            .load(arguments?.getString("url"))
+            .into(binding!!.thumbnailImageView)
+        binding!!.myOuter.text = arguments?.getString("outer")
+        binding!!.myTop.text = arguments?.getString("top")
+        binding!!.myBottom.text = arguments?.getString("bottom")
+        binding!!.myShoes.text = arguments?.getString("shoes")
+        binding!!.myBag.text = arguments?.getString("bag")
+        binding!!.myBag.text = arguments?.getString("bag")
+        binding!!.textView.text = arguments?.getInt("like").toString()
+//        articleDB.addListenerForSingleValueEvent(object : ValueEventListener {
+//            override fun onDataChange(snapshot: DataSnapshot) {
+//                snapshot.children.forEach {
+//                    val model = it.getValue(ArticleModel::class.java)
+//                    model ?: return
+//                }
+//                Log.d(ContentValues.TAG, "addListenerForSingleValueEvent is Called!!")
+//
+//            }
+//
+//            override fun onCancelled(error: DatabaseError) {}
+//        })
 
     }
 

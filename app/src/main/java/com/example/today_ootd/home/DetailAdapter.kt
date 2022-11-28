@@ -38,14 +38,14 @@ class DetailAdapter: ListAdapter<ArticleModel,DetailAdapter.ViewHolder>(DetailAd
             val format = SimpleDateFormat("MM년dd일")
             val date = Date(articleModel.createdAt)
 
-            binding.titleTextView.text = articleModel.nickname
-            //binding.dateTextView.text = format.format(date).toString()
-            binding.dateTextView.text = articleModel.style
-            binding.heightTextView.text = articleModel.whether
-            binding.priceTextView2.text = TextUtils.concat(articleModel.height.toString(), "cm")
-            binding.textView.text = articleModel.likeCount.toString()
-            binding.myStyle.text = articleModel.style.toString()
-            binding.myOuter.text = articleModel.outer.toString()
+//            binding.titleTextView.text = articleModel.nickname
+//            //binding.dateTextView.text = format.format(date).toString()
+//            binding.dateTextView.text = articleModel.style
+//            binding.heightTextView.text = articleModel.whether
+//            binding.priceTextView2.text = TextUtils.concat(articleModel.height.toString(), "cm")
+//            binding.textView.text = articleModel.likeCount.toString()
+//            binding.myStyle.text = articleModel.style
+//            binding.myOuter.text = articleModel.outer
 
 
             if(articleModel.imageUrl.isNotEmpty()){

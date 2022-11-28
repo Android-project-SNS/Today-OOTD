@@ -7,12 +7,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.today_ootd.databinding.ActivityMainBinding
 import com.example.today_ootd.favorite.FavoriteFragment
+import com.example.today_ootd.home.HomeDetailFragment
 import com.example.today_ootd.home.HomeFragment
 import com.example.today_ootd.mypage.MypageFragment
 import com.example.today_ootd.search.SearchFragment
 import com.example.today_ootd.upload.UploadActivity
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import java.util.UUID
 
 class MainActivity : AppCompatActivity() {
     val homeFragment = HomeFragment()
@@ -65,9 +67,22 @@ class MainActivity : AppCompatActivity() {
     }
     private fun replaceFragment(fragment : Fragment) {
         Log.d("MainActivity","${fragment}")
-        supportFragmentManager.beginTransaction()
+        supportFragmentManager
+            .beginTransaction()
             .apply {
                 replace(R.id.fragmentContainer,fragment)
+                    .addToBackStack(null)
+                commit()
+            }
+    }
+
+    private fun onArticleSelected(articleId:UUID){
+        val fragment = HomeDetailFragment()
+        supportFragmentManager
+            .beginTransaction()
+            .apply {
+                replace(R.id.fragmentContainer,fragment)
+                    .addToBackStack(null)
                 commit()
             }
     }
