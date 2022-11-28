@@ -122,7 +122,6 @@ class ArticleAdapter: ListAdapter<ArticleModel, ArticleAdapter.ViewHolder>(diffU
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(currentList[position])
         holder.setLike(currentList[position])
-        holder.showDetail(currentList[position])
     }
 
     companion object{
