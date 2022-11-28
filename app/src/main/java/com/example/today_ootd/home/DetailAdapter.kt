@@ -1,14 +1,15 @@
-package com.example.today_ootd.upload
+package com.example.today_ootd.home
 
-import android.text.TextUtils.concat
+import android.text.TextUtils
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.today_ootd.R
+import com.example.today_ootd.databinding.FragmentHomeBinding
+import com.example.today_ootd.databinding.FragmentHomeDetailBinding
 import com.example.today_ootd.databinding.ItemArticleBinding
 import com.example.today_ootd.model.ArticleModel
 import com.google.firebase.auth.FirebaseAuth
@@ -22,7 +23,7 @@ import com.google.firebase.ktx.Firebase
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ArticleAdapter: ListAdapter<ArticleModel, ArticleAdapter.ViewHolder>(diffUtil){
+class DetailAdapter: ListAdapter<ArticleModel,DetailAdapter.ViewHolder>(DetailAdapter.diffUtil) {
     private val articleDB: DatabaseReference by lazy{
         Firebase.database.reference.child("OOTD")
     }
@@ -32,14 +33,7 @@ class ArticleAdapter: ListAdapter<ArticleModel, ArticleAdapter.ViewHolder>(diffU
 
     private var currentUid : String? = auth!!.currentUser!!.uid
 
-    interface OnItemClickListener{
-        fun onItemClick(v: View, data: ArticleModel, pos : Int)
-    }
-    private var listener : OnItemClickListener? = null
-    fun setOnItemClickListener(listener : OnItemClickListener) {
-        this.listener = listener
-    }
-    inner class ViewHolder (private val binding: ItemArticleBinding): RecyclerView.ViewHolder(binding.root){
+    inner class ViewHolder (private val binding: FragmentHomeDetailBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(articleModel: ArticleModel){
             val format = SimpleDateFormat("MM년dd일")
             val date = Date(articleModel.createdAt)
@@ -48,27 +42,22 @@ class ArticleAdapter: ListAdapter<ArticleModel, ArticleAdapter.ViewHolder>(diffU
             //binding.dateTextView.text = format.format(date).toString()
             binding.dateTextView.text = articleModel.style
             binding.heightTextView.text = articleModel.whether
-            binding.priceTextView2.text = concat(articleModel.height.toString(), "cm")
+            binding.priceTextView2.text = TextUtils.concat(articleModel.height.toString(), "cm")
             binding.textView.text = articleModel.likeCount.toString()
+            binding.myStyle.text = articleModel.style.toString()
+            binding.myOuter.text = articleModel.outer.toString()
+
 
             if(articleModel.imageUrl.isNotEmpty()){
                 Glide.with(binding.thumbnailImageView)
                     .load(articleModel.imageUrl)
                     .into(binding.thumbnailImageView)
             }
-
-            val pos = adapterPosition
-            if(pos!= RecyclerView.NO_POSITION)
-            {
-                itemView.setOnClickListener {
-                    listener?.onItemClick(itemView,articleModel,pos)
-                }
-            }
         }
 
         fun setLike(articleModel: ArticleModel){
             var targetArticle = " "
-            articleDB.addListenerForSingleValueEvent(object : ValueEventListener{
+            articleDB.addListenerForSingleValueEvent(object : ValueEventListener {
                 var articles = mutableListOf<String>()
                 override fun onDataChange(snapshot: DataSnapshot) {
                     articles.clear()
@@ -121,7 +110,7 @@ class ArticleAdapter: ListAdapter<ArticleModel, ArticleAdapter.ViewHolder>(diffU
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(ItemArticleBinding.inflate(LayoutInflater.from(parent.context),parent,false))
+        return ViewHolder(FragmentHomeDetailBinding.inflate(LayoutInflater.from(parent.context),parent,false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

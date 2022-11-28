@@ -78,4 +78,5 @@ class MainActivity : AppCompatActivity() {
         return LocationServices.getFusedLocationProviderClient(this@MainActivity)
     }
 
+
 }
